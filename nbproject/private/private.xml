@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/mnt/Dados/Trabalho%20Lab3/SGP2/src/dao/MesaDAOJDBC.java</file>
+            <file>file:/mnt/Dados/Trabalho%20Lab3/SGP2/src/model/Mesa.java</file>
+            <file>file:/mnt/Dados/Trabalho%20Lab3/SGP2/src/dao/ConnectionFactory.java</file>
+            <file>file:/mnt/Dados/Trabalho%20Lab3/SGP2/src/controller/MesaController.java</file>
+            <file>file:/mnt/Dados/Trabalho%20Lab3/SGP2/src/dao/InicializadorBD.sql</file>
+            <file>file:/mnt/Dados/Trabalho%20Lab3/SGP2/src/dao/MesaDAO.java</file>
+        </group>
     </open-files>
 </project-private>

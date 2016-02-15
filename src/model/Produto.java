@@ -1,11 +1,12 @@
+package model;
 
-import java.text.DecimalFormat;
 
 /**
  * @author btd
  */
-class Produto {
+public class Produto {
     private String nome;
+    private String descricao;
     private double valor;
 
     public Produto(String nome, double valor) {
@@ -24,6 +25,15 @@ class Produto {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }   
+    
 
     public double getValor() {
         return valor;

@@ -1,4 +1,9 @@
+package view;
 
+
+import model.Produto;
+import model.Pedido;
+import model.Mesa;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -131,12 +136,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
         lblMesas = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstMesas = new javax.swing.JList();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         lblDescricaoMesa = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        lstDescricaoMesa = new javax.swing.JList();
         btnFechaComanda = new javax.swing.JToggleButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -145,8 +148,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnAbreMesa1 = new javax.swing.JToggleButton();
         jPanel4 = new javax.swing.JPanel();
         lblProdutos = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        lstProdutos = new javax.swing.JList();
         btnAdicionaItem1 = new javax.swing.JButton();
         lblQtde = new javax.swing.JLabel();
         spnQtdeDeItens = new javax.swing.JSpinner();
@@ -184,29 +185,29 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblMesas.setText("MESAS");
         lblMesas.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        lstMesas.setBackground(new java.awt.Color(255, 255, 255));
-        lstMesas.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        lstMesas.setForeground(new java.awt.Color(51, 51, 51));
-        lstMesas.setModel(new DefaultListModel<Mesa>());
-        lstMesas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        lstMesas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstMesasValueChanged(evt);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null}
+            },
+            new String [] {
+                "Mesas"
             }
-        });
-        jScrollPane1.setViewportView(lstMesas);
+        ));
+        jScrollPane4.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblLogo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblMesas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblMesas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addComponent(lblLogo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,8 +216,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(lblLogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblMesas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -226,11 +227,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblDescricaoMesa.setForeground(new java.awt.Color(255, 255, 255));
         lblDescricaoMesa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDescricaoMesa.setText("DESCRIÇÃO DA MESA");
-
-        lstDescricaoMesa.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        lstDescricaoMesa.setModel(new DefaultListModel<Pedido>());
-        lstDescricaoMesa.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(lstDescricaoMesa);
 
         btnFechaComanda.setBackground(new java.awt.Color(192, 57, 42));
         btnFechaComanda.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
@@ -317,14 +313,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jScrollPane2)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(btnAbreMesa1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnAbreMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnFechaComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnAbreMesa1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnAbreMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnFechaComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(7, 7, 7)))
                 .addContainerGap())
         );
@@ -335,9 +328,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(lblDescricaoMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(414, 414, 414)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAbreMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFechaComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,11 +342,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblProdutos.setForeground(new java.awt.Color(255, 255, 255));
         lblProdutos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblProdutos.setText("PRODUTOS");
-
-        lstProdutos.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        lstProdutos.setModel(new DefaultListModel<Produto>());
-        lstProdutos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane3.setViewportView(lstProdutos);
 
         btnAdicionaItem1.setBackground(new java.awt.Color(192, 57, 42));
         btnAdicionaItem1.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
@@ -382,7 +368,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(lblQtde, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -396,9 +381,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(lblProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(471, 471, 471)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblQtde)
                     .addComponent(spnQtdeDeItens, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -506,11 +489,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1438, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1764, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
         );
 
         pack();
@@ -555,7 +538,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             mesaAtual.acrescentarPedido(pedido);        
 
             //Atualiza o DefaultListModel da Mesa Atual
-            lstDescricaoMesa.setModel(mesaAtual.getDlmPedidos());
+            lstDescricaoMesa.setModel(mesaAtual.getPedidos());
             txtHorarioEntrada.setText(mesaAtual.getHorarioEntrada());
         }
         else{
@@ -592,17 +575,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void txtHorarioEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHorarioEntradaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtHorarioEntradaActionPerformed
-
-    private void lstMesasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstMesasValueChanged
-        int index = lstMesas.getSelectedIndex();
-        
-        DefaultListModel<Mesa> listaDeMesas;
-        listaDeMesas = (DefaultListModel<Mesa>)lstMesas.getModel();
-        
-        
-        txtHorarioEntrada.setText((String)listaDeMesas.getElementAt(index).getHorarioEntrada());
-        lstDescricaoMesa.setModel(listaDeMesas.getElementAt(index).getDlmPedidos());
-    }//GEN-LAST:event_lstMesasValueChanged
 
     private void HandlerBtnCancelaPedido(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerBtnCancelaPedido
         DefaultListModel<Pedido> listaDePedidos;
@@ -726,18 +698,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblDescricaoMesa;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblMesas;
     private javax.swing.JLabel lblProdutos;
     private javax.swing.JLabel lblQtde;
-    private javax.swing.JList lstDescricaoMesa;
-    private javax.swing.JList lstMesas;
-    private javax.swing.JList lstProdutos;
     private javax.swing.JMenu menAjuda;
     private javax.swing.JMenu menEditar;
     private javax.swing.JMenu menOpcoes;

@@ -1,10 +1,10 @@
+package model;
 
-import java.text.DecimalFormat;
 
 /**
  * @author btd
  */
-class Pedido {
+public class Pedido {
     private final Produto produto;
     private int qtdeDoProduto;
     private double valorDoPedido;
