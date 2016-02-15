@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.MesaController;
 import model.Produto;
 import model.Pedido;
 import model.Mesa;
@@ -45,84 +46,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pedidos = new ArrayList();
         produtos = new ArrayList();
         
-        //Inicializa 10 Mesas
-        for(int i=0; i<10; i++){
-            Mesa novaMesa = new Mesa();
-        
-        DefaultListModel<Mesa> mesas;
-        mesas = (DefaultListModel<Mesa>)lstMesas.getModel();        
-        mesas.addElement(novaMesa);
-        }
-        
-        //Inicializa Produtos
-        Produto p = new Produto("Pizza Americana",26.0);                      
-        //adiciona a JList de produtos
-        DefaultListModel<Produto> dlmProdutos;
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p);
-        
-        Produto p1 = new Produto("Pizza de Atum",25.50);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p1);
-                
-        Produto p2 = new Produto("Pizza de Bacon",27.50);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p2);
-        
-        
-        Produto p3 = new Produto("Pizza de Calabresa",25.0);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p3);
-        
-        
-        Produto p4 = new Produto("Pizza de Catupiry",25.50);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p4);
-        
-        
-        Produto p5 = new Produto("Pizza de Frango",25.0);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p5);
-        
-        
-        Produto p6 = new Produto("Pizza de Lombo",26.0);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p6);
-        
-        
-        Produto p7 = new Produto("Pizza de Mussarela",25.50);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p7);
-        
-        
-        Produto p8 = new Produto("Pizza Paulista",27.0);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p8);
-        
-        
-        Produto p9 = new Produto("Pizza Portuguesa",25.0);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p9);
-        
-        
-        Produto p10 = new Produto("Coca Cola 2L",5.50);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p10);
-        
-        
-        Produto p11 = new Produto("Coca Cola 500mL",3.0);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p11);
-        
-        
-        Produto p12 = new Produto("Agua Mineral 300mL",2.0);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p12);
-        
-        
-        Produto p13 = new Produto("Brahma",4.0);
-        dlmProdutos = (DefaultListModel<Produto>)lstProdutos.getModel();
-        dlmProdutos.addElement(p13);
     }
     
     @SuppressWarnings("unchecked")
@@ -500,69 +423,29 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void HandlerFechaComanda(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerFechaComanda
-        Mesa mesa = (Mesa) lstMesas.getSelectedValue();
+        MesaController m = new MesaController();
         
-        mesa.fecharComanda();
+        m.fechaComanda();
         
-        txtHorarioEntrada.setText("");
-        
-        /*DefaultListModel<Mesa> listaDeMesas;
-        listaDeMesas = (DefaultListModel<Mesa>)lstMesas.getModel();
-        
-        //mesaAtual.getElementAt(lstMesas.getSelectedIndex()).abrirMesa();
-        
-        
-        
-        JOptionPane.showMessageDialog(null,
-                listaDeMesas.getElementAt(lstMesas.getSelectedIndex()).fecharComanda(),
-                "Comanda", JOptionPane.INFORMATION_MESSAGE);
-        */
     }//GEN-LAST:event_HandlerFechaComanda
 
     private void HandlerAdicionaPedido(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerAdicionaPedido
-        int index = lstProdutos.getSelectedIndex();
+        MesaController m = new MesaController();
         
-        if((Integer)spnQtdeDeItens.getValue()>0){
-            Pedido pedido = new Pedido((Produto) lstProdutos.getModel().getElementAt(index),
-                    (Integer)spnQtdeDeItens.getValue());    
-
-            //adiciona ao array list da mesa
-            Mesa mesaAtual = new Mesa(1);   //Não acrescentar nova mesa
-            mesaAtual = (Mesa) lstMesas.getSelectedValue();
-
-            //Verifica se a Mesa Atual ainda não foi aberta
-            if(!mesaAtual.isOcupacaoMesa()){
-                mesaAtual.abrirMesa();                 
-            }        
-
-            mesaAtual.acrescentarPedido(pedido);        
-
-            //Atualiza o DefaultListModel da Mesa Atual
-            lstDescricaoMesa.setModel(mesaAtual.getPedidos());
-            txtHorarioEntrada.setText(mesaAtual.getHorarioEntrada());
-        }
-        else{
-            JOptionPane.showMessageDialog(null, 
-                    "Quantidade do pedido deve ser maior do que 1",
-                    "Erro no Pedido",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        m.adicionaPedido();
     }//GEN-LAST:event_HandlerAdicionaPedido
 
     private void mitemAdicionaMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaMesaActionPerformed
-        Mesa novaMesa = new Mesa();
+        MesaController m = new MesaController();
         
-        DefaultListModel<Mesa> mesas;
-        mesas = (DefaultListModel<Mesa>)lstMesas.getModel();
-        
-        mesas.addElement(novaMesa);        
+        m.adicionaMesa();
         
     }//GEN-LAST:event_mitemAdicionaMesaActionPerformed
 
     private void HandlerRemoveMesa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerRemoveMesa
-        DefaultListModel<Mesa> listaMesas;
-        listaMesas = (DefaultListModel<Mesa>) lstMesas.getModel();
-        listaMesas.remove(listaMesas.getSize()-1);
+        MesaController m = new MesaController();
+        
+        m.removeMesa();
     }//GEN-LAST:event_HandlerRemoveMesa
 
     private void mitemAdicionaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaProdutoActionPerformed
@@ -577,55 +460,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtHorarioEntradaActionPerformed
 
     private void HandlerBtnCancelaPedido(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerBtnCancelaPedido
-        DefaultListModel<Pedido> listaDePedidos;
-        listaDePedidos = (DefaultListModel<Pedido>) lstDescricaoMesa.getModel();
+        MesaController m = new MesaController();
         
-        //verifica se o pedido tem mais de 1 item
-        int qtdeDisponivel = listaDePedidos.getElementAt(
-                lstDescricaoMesa.getSelectedIndex()).getQtdeDoProduto();
-
-        if(qtdeDisponivel > 1){   //Verifica se tem mais de 1 item para remover
-            int numItensRemover;   //quantidade que será removida
-            numItensRemover = Integer.parseInt(
-                    JOptionPane.showInputDialog("Quantidade a ser cancelada"));
-            
-            //verifica se não foi passado número superior a qtde já pedida
-            if(numItensRemover>qtdeDisponivel){
-                JOptionPane.showMessageDialog(
-                        null, "Quantidade Para Cancelamento é Superior ao Pedido",
-                        "Erro no Cancelamento de Pedido", JOptionPane.ERROR_MESSAGE);
-            }
-            else{
-                if(numItensRemover == qtdeDisponivel){//verifica se vai zerar
-                    listaDePedidos.remove(lstDescricaoMesa.getSelectedIndex());
-                }
-                else{
-                    listaDePedidos.getElementAt(
-                            lstDescricaoMesa.getSelectedIndex()).cancelarItem(numItensRemover);
-                    lstDescricaoMesa.setModel(listaDePedidos);  //atualiza
-                }
-            }
-        }
-        else{       
-            listaDePedidos.remove(lstDescricaoMesa.getSelectedIndex());
-        }
+        m.cancelaPedido();
         
     }//GEN-LAST:event_HandlerBtnCancelaPedido
 
     private void HandlerRemoveProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerRemoveProdutoActionPerformed
-        DefaultListModel<Produto> listaDeProdutos;
-        listaDeProdutos = (DefaultListModel<Produto>) lstProdutos.getModel();
-        listaDeProdutos.remove(lstProdutos.getSelectedIndex());
+        MesaController m = new MesaController();
+        
+        m.removeProduto();
     }//GEN-LAST:event_HandlerRemoveProdutoActionPerformed
 
     private void HandlerBtnAbreMesa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerBtnAbreMesa
-         int index = lstMesas.getSelectedIndex();
-        
-        DefaultListModel<Mesa> listaDeMesas;
-        listaDeMesas = (DefaultListModel<Mesa>)lstMesas.getModel();
-        
-        listaDeMesas.getElementAt(index).abrirMesa();
-        txtHorarioEntrada.setText((String)listaDeMesas.getElementAt(index).getHorarioEntrada());
+        int idMesa = 1;
+        MesaController m = new MesaController();
+         
+        m.abreMesa(idMesa);
     }//GEN-LAST:event_HandlerBtnAbreMesa
 
     private void HandlerEditaItem(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerEditaItem
@@ -774,38 +625,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                if("".equals(txtNomeProduto.getText())){
-                    JOptionPane.showMessageDialog(null,
-                            "O nome do produto não pode estar vázio",
-                                "Erro",JOptionPane.ERROR_MESSAGE);               
-                }
-                else{                                       
-                    
-                    try {
-                        //verifica se valor da caixa de texto é um número
-                        double valor = Double.parseDouble(
-                                txtValorProduto.getText());
-                        //cria produto que será adicionado
-                        Produto p = new Produto(
-                            txtNomeProduto.getText(),
-                            valor);                        
-                        
-                        //adiciona a JList de produtos
-                        DefaultListModel<Produto> produtos;
-                        produtos = (DefaultListModel<Produto>)lstProdutos.getModel();
-                        produtos.addElement(p);
-
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null,"Valor inválido!",
-                                "Erro",JOptionPane.ERROR_MESSAGE);
-                    }                  
-                    
-
-                    txtNomeProduto.setText("");
-                    txtValorProduto.setText("");
-                }
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
+
             
         }
     }
