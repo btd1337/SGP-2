@@ -1,6 +1,6 @@
 package controller;
 
-import dao.TabelaMesasControllerDAO;
+import dao.TabelaMesasDAO;
 
 /**
  *
@@ -8,23 +8,27 @@ import dao.TabelaMesasControllerDAO;
  */
 public class TabelaMesasController {
     
-    public int getRowCount(){        
-        TabelaMesasControllerDAO tabela = new TabelaMesasControllerDAO();
-        return tabela.getRowCount();
+    private final String operacao = "SELECT * FROM Mesas";
+    
+    
+    public int getRowCount(){ 
+        TabelaMesasDAO tabela = new TabelaMesasDAO();
+        return tabela.getRowCount(operacao);
     }
 
     public int getColumnCount() {
-        
-        return ;
+        TabelaMesasDAO tabela = new TabelaMesasDAO();
+        return tabela.getColumnCount(operacao);
     }
 
     public Object valueAt(int row, int column) {
-        
-        return ;
+        TabelaMesasDAO tabela = new TabelaMesasDAO();
+        return tabela.getValueAt(row, column, operacao);
     }
 
     public Class getColumnClass(int column) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TabelaMesasDAO tabela = new TabelaMesasDAO();
+        return tabela.getColumnClass(column, operacao);
     }
     
     

@@ -60,7 +60,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblLogo = new javax.swing.JLabel();
         lblMesas = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        TabelaMesas = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         lblDescricaoMesa = new javax.swing.JLabel();
         btnFechaComanda = new javax.swing.JToggleButton();
@@ -108,10 +108,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblMesas.setText("MESAS");
         lblMesas.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        jTable2.setModel(new AbstractTableModel());
-        jTable2.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTable2);
-        jTable2.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        TabelaMesas.setModel(new TabelaMesas());
+        TabelaMesas.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(TabelaMesas);
+        TabelaMesas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -530,6 +530,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem HandlerRemoveProduto;
+    private javax.swing.JTable TabelaMesas;
     private javax.swing.JToggleButton btnAbreMesa;
     private javax.swing.JToggleButton btnAbreMesa1;
     private javax.swing.JButton btnAdicionaItem1;
@@ -546,7 +547,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblDescricaoMesa;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblMesas;

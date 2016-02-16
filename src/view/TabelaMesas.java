@@ -37,4 +37,5 @@ public class TabelaMesas extends AbstractTableModel {
         return tabela.getColumnClass(column);
     }
 
+    
 }

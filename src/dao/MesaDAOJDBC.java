@@ -8,8 +8,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,20 +16,16 @@ import javax.swing.JOptionPane;
  */
 public class MesaDAOJDBC implements MesaDAO {
     //configuração de acordo com o banco
-    private final String url = "jdbc:mysql://localhost/Pizzaria";
-    private final String nome = "helder";
-    private final String senha = "helder";
-    private final int BancoMySQL = 0; 
     
-    private Connection conexao;
     private Statement comando;
     private ResultSet resultado;
     private ResultSetMetaData resultadoMD;
+    private ConexaoDAO conexao = new ConexaoDAO();
     
     public void removeMesa(){
         
         int ultimaMesa = 1;    //determina ultima mesa
-        conectar();
+        conexao.conectar();
         
         
         try{
@@ -39,30 +33,30 @@ public class MesaDAOJDBC implements MesaDAO {
             ultimaMesa = resultado.getRow();    //obtem número da última mesa
             comando.executeUpdate("DELETE FROM Mesas WHERE id = ultimaMesa");   
         } catch (SQLException ex) {
-        imprimeErro("Erro ao remover mesa!", ex.getMessage());
+        conexao.imprimeErro("Erro ao remover mesa!", ex.getMessage());
         
         }finally{
-            desconectar();
+            conexao.desconectar();
         }
     }
         
     public void addMesa() {
 
-        conectar();
+        conexao.conectar();
         try {
             comando.executeUpdate("INSERT INTO Mesas(nome) VALUES ('Mesa')");
         } catch (SQLException ex) {
-            imprimeErro("Erro ao adicionar mesa!", ex.getMessage());
+            conexao.imprimeErro("Erro ao adicionar mesa!", ex.getMessage());
             
         } finally {
-            desconectar();
+            conexao.desconectar();
         }
     }
     
     public boolean isOcupMesa(int mesaSelecionada){
         
         boolean isOcup = false;
-        conectar();
+        conexao.conectar();
         
         try{
             //recebe o primeiro valor da Query
@@ -72,9 +66,9 @@ public class MesaDAOJDBC implements MesaDAO {
             isOcup = resultado.getBoolean("ocupacao");
         } 
         catch (SQLException ex) {
-            imprimeErro("Erro ao receber informação da mesa!", ex.getMessage());
+            conexao.imprimeErro("Erro ao receber informação da mesa!", ex.getMessage());
         } finally{
-            desconectar();
+            conexao.desconectar();
         }
         
         return isOcup;
@@ -82,22 +76,22 @@ public class MesaDAOJDBC implements MesaDAO {
     }
     
     public void setOcupaMesa(int mesaSelecionada, boolean isOcup){
-        conectar();
+        conexao.conectar();
         try{
             //altera a ocupação da mesa que é passa por parâmetro
             comando.executeUpdate(
                     "UPDATE 'Mesas' SET 'ocupacao' = '" + isOcup + 
                             "' WHERE 'id' = '" + mesaSelecionada + "'");
         } catch (SQLException ex) {
-            imprimeErro("Erro ao alterar ocupacação da mesa!", ex.getMessage());
+            conexao.imprimeErro("Erro ao alterar ocupacação da mesa!", ex.getMessage());
         } finally{
-            desconectar();
+            conexao.desconectar();
         }
     }
     
     public void abrirMesa(int MesaSelecionada){
         
-        conectar();
+        conexao.conectar();
         try {
             
             //seta o horário de entrada e ocupa a mesa
@@ -107,9 +101,9 @@ public class MesaDAOJDBC implements MesaDAO {
                     + MesaSelecionada + "'");
            
         } catch (SQLException ex) {
-            imprimeErro("Erro ao abrir mesa", ex.getMessage());
+            conexao.imprimeErro("Erro ao abrir mesa", ex.getMessage());
         } finally{
-            desconectar();
+            conexao.desconectar();
         }        
     }
     
@@ -119,7 +113,7 @@ public class MesaDAOJDBC implements MesaDAO {
         
         //Verificar se elemento já foi pedido
         int linhaPedido;
-        conectar();
+        conexao.conectar();
         ResultSet resultado;
         try{
             //seleciona a coluna qtde e valor do medido da mesa desejada
@@ -158,14 +152,14 @@ public class MesaDAOJDBC implements MesaDAO {
             }
         } 
         catch (SQLException ex) {
-            imprimeErro("Erro ao acrescentar pedido.", ex.getMessage());
+            conexao.imprimeErro("Erro ao acrescentar pedido.", ex.getMessage());
         } finally{
-            desconectar();
+            conexao.desconectar();
         }      
     }
         
     public void cancelarPedido(Pedido p, int qtde, int mesa){
-        conectar();
+        conexao.conectar();
         
         try{
             resultado = comando.executeQuery("SELECT qtde, valor FROM PedidosMesa'" + 
@@ -202,45 +196,17 @@ public class MesaDAOJDBC implements MesaDAO {
             }
         }
         catch (SQLException ex) {
-            imprimeErro("Erro ao cancelar pedido.", ex.getMessage());
+            conexao.imprimeErro("Erro ao cancelar pedido.", ex.getMessage());
         } finally{
-            desconectar();
+            conexao.desconectar();
         }
     }
     
     
     
-    public void conectar(){
-        try{
-            conexao = ConnectionFactory.conexao(url, nome, senha, BancoMySQL);
-            comando = conexao.createStatement();
-        } catch (ClassNotFoundException ex) {
-            imprimeErro("Erro ao carregar o driver!", ex.getMessage());
-            
-        } catch (SQLException ex) {            
-            imprimeErro("Erro ao iniciar conexão com o banco!", ex.getMessage());
-        }
-    }
     
-    public void desconectar(){
-        try{
-            comando.close();
-        } catch (SQLException ex) {
-            imprimeErro("Erro ao fechar conexão com o Banco de Dados", ex.getMessage());
-            
-        }
-    }
     
-    public void imprimeErro(String msg, String msgErro){
-        
-        JOptionPane.showMessageDialog(
-                    null, msg + "/n/n" + msgErro , "Erro Crítico", 
-                JOptionPane.ERROR_MESSAGE);
-        
-        System.err.println(msg);
-        System.out.println(msgErro);
-        System.exit(0);
-    }
+    
 
     @Override
     public int getNumIDMesa() {
