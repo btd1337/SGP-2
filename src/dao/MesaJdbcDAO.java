@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author helder
  */
-public class MesaDAOJDBC implements MesaDAO {
+public class MesaJdbcDAO implements MesaDAO {
     //configuração de acordo com o banco
     
     private Statement comando;

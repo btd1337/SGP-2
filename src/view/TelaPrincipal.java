@@ -3,6 +3,7 @@ package view;
 import dao.ResultSetTableModel;
 
 import controller.MesaController;
+import controller.PedidoController;
 import model.Produto;
 import model.Pedido;
 import model.Mesa;
@@ -19,6 +20,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import model.PizzariaEnum;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,21 +36,12 @@ import javax.swing.JTextField;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
-    private ArrayList<Mesa> mesas;
-    private ArrayList<Pedido> pedidos;
-    private ArrayList<Produto> produtos;
-    private DefaultListModel<Mesa> modeloMesa;
-    private DefaultListModel<Pedido> modeloPedido;
-    private DefaultListModel<Produto> modeloProduto;
+
     
     
     
     public TelaPrincipal() throws SQLException {
         initComponents();
-        
-        mesas = new ArrayList();
-        pedidos = new ArrayList();
-        produtos = new ArrayList();
         
     }
     
@@ -75,7 +70,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tabelaPedidosMesa = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         lblProdutos = new javax.swing.JLabel();
-        btnAdicionaItem1 = new javax.swing.JButton();
+        btnAdicionaPedido = new javax.swing.JButton();
         lblQtde = new javax.swing.JLabel();
         spnQtdeDeItens = new javax.swing.JSpinner();
         lblProdutos1 = new javax.swing.JLabel();
@@ -89,7 +84,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         mitemRemoveMesa = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mitemAdicionaProduto = new javax.swing.JMenuItem();
-        HandlerRemoveProduto = new javax.swing.JMenuItem();
+        mItemRemoveProduto = new javax.swing.JMenuItem();
+        mItemSair = new javax.swing.JMenuItem();
         menEditar = new javax.swing.JMenu();
         mitemEditaProduto = new javax.swing.JMenuItem();
         menAjuda = new javax.swing.JMenu();
@@ -285,12 +281,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblProdutos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblProdutos.setText("PIZZAS");
 
-        btnAdicionaItem1.setBackground(new java.awt.Color(192, 57, 42));
-        btnAdicionaItem1.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
-        btnAdicionaItem1.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdicionaItem1.setText("Adicionar Item");
-        btnAdicionaItem1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
-        btnAdicionaItem1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdicionaPedido.setBackground(new java.awt.Color(192, 57, 42));
+        btnAdicionaPedido.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        btnAdicionaPedido.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdicionaPedido.setText("Adicionar Pedido");
+        btnAdicionaPedido.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
+        btnAdicionaPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 HandlerAdicionaPedido(evt);
             }
@@ -308,23 +304,43 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblProdutos1.setText("EXTRAS");
 
         try{
-            tabelaExtras.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+            tabelaExtras.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
             tabelaExtras.setModel(new ResultSetTableModel("SELECT Produto, Descricao, Valor FROM Extras"));
             tabelaExtras.setRowHeight(20);
         }
         catch(SQLException ex){
             ex.printStackTrace();
         }
+        tabelaExtras.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tabelaExtrasAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        tabelaExtras.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                tabelaPizzas.getSelectionModel().clearSelection();
+            }
+        });
         jScrollPane2.setViewportView(tabelaExtras);
 
         try{
-            tabelaPizzas.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+            tabelaPizzas.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
             tabelaPizzas.setModel(new ResultSetTableModel("SELECT Pizza, P, M, G FROM Pizzas"));
             tabelaPizzas.setRowHeight(20);
         }
         catch(SQLException ex){
             ex.printStackTrace();
         }
+
+        tabelaPizzas.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                tabelaExtras.getSelectionModel().clearSelection();
+            }
+        });
         jScrollPane3.setViewportView(tabelaPizzas);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -342,7 +358,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(spnQtdeDeItens, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAdicionaItem1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAdicionaPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addContainerGap()
@@ -364,7 +380,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblQtde)
                     .addComponent(spnQtdeDeItens, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdicionaItem1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdicionaPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(120, 120, 120))
         );
 
@@ -420,13 +436,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menOpcoes.add(mitemAdicionaProduto);
 
-        HandlerRemoveProduto.setText("Remover Produto");
-        HandlerRemoveProduto.addActionListener(new java.awt.event.ActionListener() {
+        mItemRemoveProduto.setText("Remover Produto");
+        mItemRemoveProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HandlerRemoveProdutoActionPerformed(evt);
+                mItemRemoveProdutoActionPerformed(evt);
             }
         });
-        menOpcoes.add(HandlerRemoveProduto);
+        menOpcoes.add(mItemRemoveProduto);
+
+        mItemSair.setText("Sair");
+        mItemSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mItemSairActionPerformed(evt);
+            }
+        });
+        menOpcoes.add(mItemSair);
 
         jMenuBar1.add(menOpcoes);
 
@@ -488,7 +512,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_HandlerFechaComanda
 
     private void HandlerAdicionaPedido(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerAdicionaPedido
-        tabela
+        int tabelaPizzasLinhaSelecionada;
+        int tabelaExtrasLinhaSelecionada;
+        int mesaSelecionada;
+        
+        mesaSelecionada  = tabelaMesas.getSelectedRow();
+        tabelaPizzasLinhaSelecionada = tabelaPizzas.getSelectedRow();
+        tabelaExtrasLinhaSelecionada = tabelaExtras.getSelectedRow();
+        
+        if(mesaSelecionada <= 0){
+            JOptionPane.showMessageDialog(
+                    null, "Selecione a mesa para realizar o pedido!","Atenção",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }        
+        //caso tenha uma linha da tabela de pizzas selecionada
+        else if(tabelaPizzasLinhaSelecionada>0){
+            PedidoController pedido = new PedidoController();
+            
+            pedido.adicionaPedido(
+                    PizzariaEnum.TABELAPIZZAS.getValor, tabelaPizzasLinhaSelecionada,
+                    mesaSelecionada);
+        }
+        //caso tenha uma linha da tabela de extras selecionada
+        else if(tabelaExtrasLinhaSelecionada>0){
+            PedidoController pedido = new PedidoController();
+            
+            pedido.adicionaPedido(
+                    PizzariaEnum.TABELAEXSTRAS.getValor, tabelaPizzasLinhaSelecionada,
+                    mesaSelecionada);
+        }
+        else{
+            JOptionPane.showMessageDialog(
+                    null, "Nenhum produto foi selecionado!","Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
         
         MesaController m = new MesaController();
         
@@ -526,11 +583,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_HandlerBtnCancelaPedido
 
-    private void HandlerRemoveProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerRemoveProdutoActionPerformed
+    private void mItemRemoveProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemRemoveProdutoActionPerformed
         MesaController m = new MesaController();
         
         m.removeProduto();
-    }//GEN-LAST:event_HandlerRemoveProdutoActionPerformed
+    }//GEN-LAST:event_mItemRemoveProdutoActionPerformed
 
     private void HandlerBtnAbreMesa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerBtnAbreMesa
         int idMesa = 1;
@@ -558,6 +615,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_HandlerMItemInstrucoes
 
+    private void tabelaExtrasAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tabelaExtrasAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelaExtrasAncestorAdded
+
+    private void mItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemSairActionPerformed
+        //Encerra a aplicação
+        System.exit(0);
+    }//GEN-LAST:event_mItemSairActionPerformed
+
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -598,10 +666,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem HandlerRemoveProduto;
     private javax.swing.JToggleButton btnAbreMesa;
     private javax.swing.JToggleButton btnAbreMesa1;
-    private javax.swing.JButton btnAdicionaItem1;
+    private javax.swing.JButton btnAdicionaPedido;
     private javax.swing.JToggleButton btnFechaComanda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -624,6 +691,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel lblProdutos;
     private javax.swing.JLabel lblProdutos1;
     private javax.swing.JLabel lblQtde;
+    private javax.swing.JMenuItem mItemRemoveProduto;
+    private javax.swing.JMenuItem mItemSair;
     private javax.swing.JMenu menAjuda;
     private javax.swing.JMenu menEditar;
     private javax.swing.JMenu menOpcoes;
