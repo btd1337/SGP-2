@@ -1,6 +1,9 @@
 package view;
 
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /*
@@ -145,10 +148,14 @@ public class TelaLogin extends javax.swing.JFrame {
         
         //if(true){
         if("admin".equals(usuario) && "admin".equals(senha) ){
-            setVisible(false);
-            TelaPrincipal principal = new TelaPrincipal();
-            principal.setVisible(true);
-            principal.setLocationRelativeTo(null);
+            try {
+                setVisible(false);
+                TelaPrincipal principal = new TelaPrincipal();
+                principal.setVisible(true);
+                principal.setLocationRelativeTo(null);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         else{
             if("admin".equals(txtUser.getText())){
