@@ -5,24 +5,16 @@ CREATE DATABASE Pizzaria;
 USE Pizzaria;
 
 CREATE TABLE Mesas(
-    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Mesa int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome varchar(4),
     totalPagar double,
     horarioEntrada date,
     horarioSaida date,
-    ocupacao boolean NOT NULL
+    Ocupado boolean NOT NULL
 );
 
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
-INSERT INTO Mesas(nome,ocupacao) VALUES('Mesa',false);
+INSERT INTO Mesas(nome,Ocupado) VALUES('Mesa',false);
+
 
 
 CREATE TABLE Pizzas(
