@@ -1,20 +1,22 @@
 package view;
 
+import dao.ResultSetTableModel;
 
 import controller.MesaController;
 import model.Produto;
 import model.Pedido;
 import model.Mesa;
-import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -39,6 +41,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     
     
+    
     public TelaPrincipal() {
         initComponents();
         
@@ -59,8 +62,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
         lblMesas = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TabelaMesas = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         lblDescricaoMesa = new javax.swing.JLabel();
         btnFechaComanda = new javax.swing.JToggleButton();
@@ -108,23 +109,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblMesas.setText("MESAS");
         lblMesas.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        TabelaMesas.setModel(new TabelaMesas());
-        TabelaMesas.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(TabelaMesas);
-        TabelaMesas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblLogo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblLogo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMesas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 8, Short.MAX_VALUE)))
+                .addComponent(lblMesas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -134,8 +126,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(lblLogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblMesas)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -530,7 +520,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem HandlerRemoveProduto;
-    private javax.swing.JTable TabelaMesas;
     private javax.swing.JToggleButton btnAbreMesa;
     private javax.swing.JToggleButton btnAbreMesa1;
     private javax.swing.JButton btnAdicionaItem1;
@@ -545,7 +534,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel lblDescricaoMesa;
     private javax.swing.JLabel lblLogo;

@@ -200,9 +200,7 @@ public class MesaDAOJDBC implements MesaDAO {
         } finally{
             conexao.desconectar();
         }
-    }
-    
-    
+    }    
     
     
     

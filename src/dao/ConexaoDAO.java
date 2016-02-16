@@ -1,6 +1,9 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -8,7 +11,15 @@ import java.sql.SQLException;
  */
 public class ConexaoDAO {
     
-    public void conectar(String url, String nome, String senha, String BancoMySQL){
+    private final String url = "jdbc:mysql://localhost/Pizzaria";
+    private final String nome = "helder";
+    private final String senha = "helder";
+    private final int BancoMySQL = 0; 
+    
+    private Connection conexao;
+    private Statement comando;
+    
+    public void conectar(){
         try{
             conexao = ConnectionFactory.conexao(url, nome, senha, BancoMySQL);
             comando = conexao.createStatement();
@@ -23,9 +34,29 @@ public class ConexaoDAO {
     public void desconectar(){
         try{
             comando.close();
+            conexao.close();
         } catch (SQLException ex) {
             imprimeErro("Erro ao fechar conexão com o Banco de Dados", ex.getMessage());
             
         }
     }
+    
+    public void imprimeErro(String msg, String msgErro){
+        
+        JOptionPane.showMessageDialog(
+                    null, msg + "/n/n" + msgErro , "Erro Crítico", 
+                JOptionPane.ERROR_MESSAGE);
+        
+        System.err.println(msg);
+        System.out.println(msgErro);
+        System.exit(0);
+    }
+
+    public Statement getComando() {
+        return comando;
+    }
+
+    
+    
+    
 }
