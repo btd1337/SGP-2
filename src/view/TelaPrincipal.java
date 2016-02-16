@@ -72,7 +72,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnAbreMesa = new javax.swing.JToggleButton();
         btnAbreMesa1 = new javax.swing.JToggleButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabelaPedidosMesa = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         lblProdutos = new javax.swing.JLabel();
         btnAdicionaItem1 = new javax.swing.JButton();
@@ -80,9 +80,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         spnQtdeDeItens = new javax.swing.JSpinner();
         lblProdutos1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaExtras = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tabelaPizzas = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         menOpcoes = new javax.swing.JMenu();
         mitemAdicionaMesa = new javax.swing.JMenuItem();
@@ -233,12 +233,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
 
         try{
-            jTable2.setModel(new ResultSetTableModel("SELECT Nome,Descricao,Qtde,Valor FROM PedidosMesa1"));
+            tabelaPedidosMesa.setModel(new ResultSetTableModel("SELECT Nome,Descricao,Qtde,Valor FROM PedidosMesa1"));
         }
         catch(SQLException ex){
             ex.printStackTrace();
         }
-        jScrollPane4.setViewportView(jTable2);
+        jScrollPane4.setViewportView(tabelaPedidosMesa);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -308,24 +308,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblProdutos1.setText("EXTRAS");
 
         try{
-            jTable1.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-            jTable1.setModel(new ResultSetTableModel("SELECT Produto, Descricao, Valor FROM Extras"));
-            jTable1.setRowHeight(20);
+            tabelaExtras.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+            tabelaExtras.setModel(new ResultSetTableModel("SELECT Produto, Descricao, Valor FROM Extras"));
+            tabelaExtras.setRowHeight(20);
         }
         catch(SQLException ex){
             ex.printStackTrace();
         }
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tabelaExtras);
 
         try{
-            jTable3.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-            jTable3.setModel(new ResultSetTableModel("SELECT Pizza, P, M, G FROM Pizzas"));
-            jTable3.setRowHeight(20);
+            tabelaPizzas.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+            tabelaPizzas.setModel(new ResultSetTableModel("SELECT Pizza, P, M, G FROM Pizzas"));
+            tabelaPizzas.setRowHeight(20);
         }
         catch(SQLException ex){
             ex.printStackTrace();
         }
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tabelaPizzas);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -488,6 +488,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_HandlerFechaComanda
 
     private void HandlerAdicionaPedido(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerAdicionaPedido
+        tabela
+        
         MesaController m = new MesaController();
         
         m.adicionaPedido();
@@ -616,9 +618,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JLabel lblDescricaoMesa;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblMesas;
@@ -635,7 +634,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mitemRemoveMesa;
     private javax.swing.JMenuItem mitemSobre;
     private javax.swing.JSpinner spnQtdeDeItens;
+    private javax.swing.JTable tabelaExtras;
     private javax.swing.JTable tabelaMesas;
+    private javax.swing.JTable tabelaPedidosMesa;
+    private javax.swing.JTable tabelaPizzas;
     private javax.swing.JTextField txtHorarioEntrada;
     // End of variables declaration//GEN-END:variables
 
