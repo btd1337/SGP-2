@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -22,16 +23,28 @@ public class MesaJdbcDAO implements MesaDAO {
     private ResultSetMetaData resultadoMD;
     private ConexaoDAO conexao = new ConexaoDAO();
     
-    public void removeMesa(){
+    public void removeMesa(JTable tabela){
         
         int ultimaMesa = 1;    //determina ultima mesa
         conexao.conectar();
-        
+        comando = conexao.getComando();
         
         try{
+            resultado = comando.executeQuery("SELECT Mesa FROM Mesas");
+            
             resultado.last();                   //encontra a última linha da tabela
-            ultimaMesa = resultado.getRow();    //obtem número da última mesa
-            comando.executeUpdate("DELETE FROM Mesas WHERE id = ultimaMesa");   
+            ultimaMesa = resultado.getInt("Mesa");    //obtem número da última mesa
+            
+            //deleta ultima mesa
+            comando.executeUpdate(
+                    "DELETE FROM Mesas WHERE Mesa = '" + ultimaMesa + "'");
+            
+            
+            tabela.setModel(new ResultSetTableModel("SELECT Mesa, Ocupado FROM Mesas"));
+            
+            JOptionPane.showMessageDialog(
+                    null, "Mesa removida com sucesso!","Mesas",JOptionPane.INFORMATION_MESSAGE);
+            
         } catch (SQLException ex) {
         conexao.imprimeErro("Erro ao remover mesa!", ex.getMessage());
         
@@ -40,15 +53,17 @@ public class MesaJdbcDAO implements MesaDAO {
         }
     }
         
-    public void addMesa() {
+    public void addMesa(JTable tabela) {
         int numMesas;
-        ResultSet resultado;
         conexao.conectar();
         comando = conexao.getComando();
         try {
             //insere nova mesa
-            comando.executeUpdate("INSERT INTO Mesas(Nome,Ocupado) VALUES('Mesa',false)");         
+            comando.executeUpdate("INSERT INTO Mesas(Nome,Ocupado) VALUES('Mesa',false)");       
             
+            //Atualiza tabela
+            tabela.setModel(new ResultSetTableModel("SELECT Mesa, Ocupado FROM Mesas"));
+                    
             JOptionPane.showMessageDialog(
                     null, "Mesa adicionada com sucesso!","Mesas",JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {

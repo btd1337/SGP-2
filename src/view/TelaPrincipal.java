@@ -57,71 +57,79 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblLogo = new javax.swing.JLabel();
         lblMesas = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaMesas = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        lblDescricaoMesa = new javax.swing.JLabel();
-        btnFechaComanda = new javax.swing.JToggleButton();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        txtHorarioEntrada = new javax.swing.JTextField();
-        btnAbreMesa = new javax.swing.JToggleButton();
-        btnAbreMesa1 = new javax.swing.JToggleButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tabelaPedidosMesa = new javax.swing.JTable();
-        jPanel4 = new javax.swing.JPanel();
-        lblProdutos = new javax.swing.JLabel();
-        btnAdicionaPedido = new javax.swing.JButton();
-        lblQtde = new javax.swing.JLabel();
-        spnQtdeDeItens = new javax.swing.JSpinner();
-        lblProdutos1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tabelaExtras = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tabelaPizzas = new javax.swing.JTable();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        menOpcoes = new javax.swing.JMenu();
-        mitemAdicionaMesa = new javax.swing.JMenuItem();
-        mitemRemoveMesa = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        mitemAdicionaProduto = new javax.swing.JMenuItem();
-        mItemRemoveProduto = new javax.swing.JMenuItem();
-        mItemSair = new javax.swing.JMenuItem();
-        menEditar = new javax.swing.JMenu();
-        mitemEditaProduto = new javax.swing.JMenuItem();
-        menAjuda = new javax.swing.JMenu();
-        mitemInstrucoes = new javax.swing.JMenuItem();
-        mitemSobre = new javax.swing.JMenuItem();
-
-        jMenu1.setText("jMenu1");
-
-        jMenu2.setText("jMenu2");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(135, 0, 6));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1366, 768));
-
-        jPanel2.setBackground(new java.awt.Color(135, 0, 6));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(204, 204, 204))); // NOI18N
-
-        lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.jpg"))); // NOI18N
-
-        lblMesas.setFont(new java.awt.Font("Open Sans Semibold", 0, 24)); // NOI18N
-        lblMesas.setForeground(new java.awt.Color(255, 255, 255));
-        lblMesas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMesas.setText("MESAS");
-        lblMesas.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-
         try{
-            tabelaMesas.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-            tabelaMesas.setModel(new ResultSetTableModel("SELECT Mesa,Ocupado FROM Mesas"));
-            tabelaMesas.setRowHeight(20);
+            tabelaMesas = new javax.swing.JTable(new ResultSetTableModel("SELECT Mesa,Ocupado FROM Mesas"));
+            jPanel3 = new javax.swing.JPanel();
+            lblDescricaoMesa = new javax.swing.JLabel();
+            btnFechaComanda = new javax.swing.JToggleButton();
+            jPanel5 = new javax.swing.JPanel();
+            jLabel1 = new javax.swing.JLabel();
+            txtHorarioEntrada = new javax.swing.JTextField();
+            btnAbreMesa = new javax.swing.JToggleButton();
+            btnAbreMesa1 = new javax.swing.JToggleButton();
+            jScrollPane4 = new javax.swing.JScrollPane();
+            tabelaPedidosMesa = new javax.swing.JTable();
+            jPanel4 = new javax.swing.JPanel();
+            lblProdutos = new javax.swing.JLabel();
+            btnAdicionaPedido = new javax.swing.JButton();
+            lblQtde = new javax.swing.JLabel();
+            spnQtdeDeItens = new javax.swing.JSpinner();
+            lblProdutos1 = new javax.swing.JLabel();
+            jScrollPane2 = new javax.swing.JScrollPane();
+            tabelaExtras = new javax.swing.JTable();
+            jScrollPane3 = new javax.swing.JScrollPane();
+            tabelaPizzas = new javax.swing.JTable();
+            jMenuBar1 = new javax.swing.JMenuBar();
+            menOpcoes = new javax.swing.JMenu();
+            mitemAdicionaMesa = new javax.swing.JMenuItem();
+            mitemRemoveMesa = new javax.swing.JMenuItem();
+            jSeparator1 = new javax.swing.JPopupMenu.Separator();
+            mitemAdicionaProduto = new javax.swing.JMenuItem();
+            mItemRemoveProduto = new javax.swing.JMenuItem();
+            mItemSair = new javax.swing.JMenuItem();
+            menEditar = new javax.swing.JMenu();
+            mitemEditaProduto = new javax.swing.JMenuItem();
+            menAjuda = new javax.swing.JMenu();
+            mitemInstrucoes = new javax.swing.JMenuItem();
+            mitemSobre = new javax.swing.JMenuItem();
+
+            jMenu1.setText("jMenu1");
+
+            jMenu2.setText("jMenu2");
+
+            setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+            jPanel1.setBackground(new java.awt.Color(135, 0, 6));
+            jPanel1.setPreferredSize(new java.awt.Dimension(1366, 768));
+
+            jPanel2.setBackground(new java.awt.Color(135, 0, 6));
+            jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(204, 204, 204))); // NOI18N
+
+            lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.jpg"))); // NOI18N
+
+            lblMesas.setFont(new java.awt.Font("Open Sans Semibold", 0, 24)); // NOI18N
+            lblMesas.setForeground(new java.awt.Color(255, 255, 255));
+            lblMesas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            lblMesas.setText("MESAS");
+            lblMesas.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
         }
         catch(SQLException ex){
             ex.printStackTrace();
         }
+        tabelaMesas.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        try{
+            tabelaMesas.setModel(new ResultSetTableModel("SELECT Mesa,Ocupado FROM Mesas"));
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        tabelaMesas.setRowHeight(20);
         jScrollPane1.setViewportView(tabelaMesas);
+        //tabelaMesas = new javax.swing.JTable();
+
+        //tabelaMesas.setModel(new ResultSetTableModel("SELECT Mesa,Ocupado FROM Mesas"));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -569,14 +577,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void mitemAdicionaMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaMesaActionPerformed
         MesaController m = new MesaController();
         
-        m.adicionaMesa();
+        m.adicionaMesa(tabelaMesas);
         
+      
     }//GEN-LAST:event_mitemAdicionaMesaActionPerformed
 
     private void HandlerRemoveMesa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerRemoveMesa
         MesaController m = new MesaController();
         
-        m.removeMesa();
+        m.removeMesa(tabelaMesas);
     }//GEN-LAST:event_HandlerRemoveMesa
 
     private void mitemAdicionaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaProdutoActionPerformed

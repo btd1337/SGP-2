@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -44,8 +46,10 @@ public class ResultSetTableModel extends AbstractTableModel{
         //configura consulta e a executa
         setQuery(query);
     }
+
     
     //obtém a classe que representa o tipo de coluna
+    @Override
     public Class getColumnClass(int column){
         //assegura que o banco de dados conexão está disponível
         if(!connectedToDatabase){
@@ -90,6 +94,7 @@ public class ResultSetTableModel extends AbstractTableModel{
     
     
     //obtém o nome de uma coluna particular em ResultSet
+    @Override
     public String getColumnName(int column) throws IllegalStateException{
         //assegura que o banco de dados conexão está disponível
         if(!connectedToDatabase){

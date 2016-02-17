@@ -1,6 +1,7 @@
 package controller;
 
 import dao.MesaJdbcDAO;
+import javax.swing.JTable;
 
 /**
  *
@@ -16,14 +17,16 @@ public class MesaController {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void adicionaMesa() {
+    public void adicionaMesa(JTable tabela) {
         MesaJdbcDAO mesa = new MesaJdbcDAO();
         
-        mesa.addMesa();
+        mesa.addMesa(tabela);
     }
 
-    public void removeMesa() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void removeMesa(JTable tabela) {
+        MesaJdbcDAO mesa = new MesaJdbcDAO();
+        
+        mesa.removeMesa(tabela);
     }
 
     public void cancelaPedido() {
