@@ -229,7 +229,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
 
         try{
-            tabelaPedidosMesa.setModel(new ResultSetTableModel("SELECT Nome,Descricao,Qtde,Valor FROM PedidosMesa1"));
+            tabelaPedidosMesa.setModel(new ResultSetTableModel("SELECT Nome,Descricao,Qtde,Valor FROM Pedidos"));
         }
         catch(SQLException ex){
             ex.printStackTrace();

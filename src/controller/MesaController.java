@@ -1,5 +1,7 @@
 package controller;
 
+import dao.MesaJdbcDAO;
+
 /**
  *
  * @author helder
@@ -15,7 +17,9 @@ public class MesaController {
     }
 
     public void adicionaMesa() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MesaJdbcDAO mesa = new MesaJdbcDAO();
+        
+        mesa.addMesa();
     }
 
     public void removeMesa() {

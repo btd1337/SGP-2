@@ -41,10 +41,16 @@ public class MesaJdbcDAO implements MesaDAO {
     }
         
     public void addMesa() {
-
+        int numMesas;
+        ResultSet resultado;
         conexao.conectar();
+        comando = conexao.getComando();
         try {
-            comando.executeUpdate("INSERT INTO Mesas(nome) VALUES ('Mesa')");
+            //insere nova mesa
+            comando.executeUpdate("INSERT INTO Mesas(Nome,Ocupado) VALUES('Mesa',false)");         
+            
+            JOptionPane.showMessageDialog(
+                    null, "Mesa adicionada com sucesso!","Mesas",JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             conexao.imprimeErro("Erro ao adicionar mesa!", ex.getMessage());
             

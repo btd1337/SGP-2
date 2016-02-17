@@ -64,10 +64,12 @@ INSERT INTO Extras(Produto, Descricao, Valor) VALUES ('Suco Del Vale','335ml', 3
 INSERT INTO Extras(Produto, Descricao, Valor) VALUES ('Água Mineral', '500ml', 2.00);
 INSERT INTO Extras(Produto, Valor)            VALUES ('Chiclete Trident',1.50 );
 
-CREATE TABLE PedidosMesa1(
-    id int AUTO_INCREMENT NOT NULL PRIMARY KEY, 
+CREATE TABLE Pedidos(
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    Mesa int NOT NULL, 
     Nome varchar(25) NOT NULL,
     Descricao varchar(25),
     Qtde int NOT NULL,
-    Valor double NOT NULL
+    Valor double NOT NULL,
+    FOREIGN KEY (Mesa) REFERENCES Mesas(Mesa)
 );

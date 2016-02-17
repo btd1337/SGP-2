@@ -61,6 +61,11 @@ public class TelaLogin extends javax.swing.JFrame {
         txtUser.setMinimumSize(new java.awt.Dimension(150, 25));
         txtUser.setName("Usuário"); // NOI18N
         txtUser.setPreferredSize(new java.awt.Dimension(150, 25));
+        txtUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtUserMouseClicked(evt);
+            }
+        });
         txtUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUserActionPerformed(evt);
@@ -75,6 +80,11 @@ public class TelaLogin extends javax.swing.JFrame {
         pwSenha.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         pwSenha.setMinimumSize(new java.awt.Dimension(150, 25));
         pwSenha.setPreferredSize(new java.awt.Dimension(150, 25));
+        pwSenha.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pwSenhaMouseClicked(evt);
+            }
+        });
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.jpg"))); // NOI18N
 
@@ -168,6 +178,14 @@ public class TelaLogin extends javax.swing.JFrame {
             }
         } 
     }//GEN-LAST:event_HandlerLogin
+
+    private void txtUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUserMouseClicked
+        txtUser.setText("");
+    }//GEN-LAST:event_txtUserMouseClicked
+
+    private void pwSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pwSenhaMouseClicked
+        pwSenha.setText("");
+    }//GEN-LAST:event_pwSenhaMouseClicked
 
     /**
      * @param args the command line arguments
