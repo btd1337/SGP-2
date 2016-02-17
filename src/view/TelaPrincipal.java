@@ -24,7 +24,8 @@ import model.BaseDados;
  *
  * @author btd
  */
-public class TelaPrincipal extends javax.swing.JFrame {    
+public class TelaPrincipal extends javax.swing.JFrame {
+
     
     public TelaPrincipal() throws SQLException {
         initComponents();
@@ -238,7 +239,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
 
         try{
-            tabelaPedidosMesa.setModel(new ResultSetTableModel("SELECT Nome,Descricao,Qtde,Valor FROM Pedidos"));
+            tabelaPedidosMesa.setModel(new ResultSetTableModel("SELECT Nome,Descricao,Qtde,Valor FROM Pedidos WHERE Mesa = '" + getMesaSelecionda() + "'"));
         }
         catch(SQLException ex){
             ex.printStackTrace();
@@ -321,12 +322,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         tabelaExtras.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 tabelaExtrasAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         tabelaExtras.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -559,6 +560,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         ex.printStackTrace();
                 }
             }
+        }
+    }
+    
+    public int getMesaSelecionda(){
+        
+        //caso não tenha nenhuma mesa selecionada exibir a mesa 1
+        if(tabelaMesas.getSelectedRow()<0){
+            return 1;
+        }else{
+            return tabelaMesas.getSelectedRow() + 1;
         }
     }
     

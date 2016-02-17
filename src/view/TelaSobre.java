@@ -53,7 +53,7 @@ public class TelaSobre extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Open Sans", 0, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("SGP Beta 0.6");
+        jLabel2.setText("SGP2 Beta 0.6");
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));

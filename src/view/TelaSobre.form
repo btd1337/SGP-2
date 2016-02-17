@@ -116,7 +116,7 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="SGP Beta 0.6"/>
+            <Property name="text" type="java.lang.String" value="SGP2 Beta 0.6"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
