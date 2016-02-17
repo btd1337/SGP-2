@@ -16,7 +16,7 @@ import model.Extras;
  *
  * @author helder
  */
-public class MesaJdbcDAO implements MesaDAO {
+public class MesaDAOJdbc implements MesaDAO {
     //configuração de acordo com o banco
     
     private Statement comando;

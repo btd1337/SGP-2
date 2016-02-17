@@ -1,18 +1,18 @@
 package controller;
 
-import dao.PedidoJdbcDAO;
+import dao.PedidoDAOJdbc;
 import model.PizzariaEnum;
 
 /**
  *
  * @author helder
  */
-public class PedidoController {
+public class PedidoController{
     
     //Método para Produtos Extras
     public void adicionaPedido(int linhaSelecionada, int mesa, int qtde) {
         
-        PedidoJdbcDAO pedido = new PedidoJdbcDAO();
+        PedidoDAOJdbc pedido = new PedidoDAOJdbc();
         
         pedido.adicionaPedido(linhaSelecionada, mesa, qtde);
         

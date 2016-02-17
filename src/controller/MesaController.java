@@ -1,13 +1,13 @@
 package controller;
 
-import dao.MesaJdbcDAO;
+import dao.MesaDAOJdbc;
 import javax.swing.JTable;
 
 /**
  *
  * @author helder
  */
-public class MesaController {
+public class MesaController{
 
     public void fechaComanda() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -18,13 +18,13 @@ public class MesaController {
     }
 
     public void adicionaMesa() {
-        MesaJdbcDAO mesa = new MesaJdbcDAO();
+        MesaDAOJdbc mesa = new MesaDAOJdbc();
         
         mesa.addMesa();
     }
 
     public void removeMesa() {
-        MesaJdbcDAO mesa = new MesaJdbcDAO();
+        MesaDAOJdbc mesa = new MesaDAOJdbc();
         
         mesa.removeMesa();
     }
@@ -41,4 +41,5 @@ public class MesaController {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
 }

@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import model.BaseDados;
 import model.PizzariaEnum;
 
 /*
@@ -37,7 +38,7 @@ import model.PizzariaEnum;
 public class TelaPrincipal extends javax.swing.JFrame {
 
 
-    
+    private BaseDados baseDados = BaseDados.JDBC;
     
     
     public TelaPrincipal() throws SQLException {
@@ -52,6 +53,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        radGroupBaseDeDados = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
@@ -86,9 +91,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jSeparator1 = new javax.swing.JPopupMenu.Separator();
             mitemAdicionaProduto = new javax.swing.JMenuItem();
             mItemRemoveProduto = new javax.swing.JMenuItem();
+            jSeparator2 = new javax.swing.JPopupMenu.Separator();
             mItemSair = new javax.swing.JMenuItem();
             menEditar = new javax.swing.JMenu();
             mitemEditaProduto = new javax.swing.JMenuItem();
+            jMenu5 = new javax.swing.JMenu();
+            radArquivo = new javax.swing.JRadioButtonMenuItem();
+            radSerial = new javax.swing.JRadioButtonMenuItem();
+            radJDBC = new javax.swing.JRadioButtonMenuItem();
             menAjuda = new javax.swing.JMenu();
             mitemInstrucoes = new javax.swing.JMenuItem();
             mitemSobre = new javax.swing.JMenuItem();
@@ -96,6 +106,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jMenu1.setText("jMenu1");
 
             jMenu2.setText("jMenu2");
+
+            jMenu3.setText("File");
+            jMenuBar2.add(jMenu3);
+
+            jMenu4.setText("Edit");
+            jMenuBar2.add(jMenu4);
 
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -451,6 +467,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         menOpcoes.add(mItemRemoveProduto);
+        menOpcoes.add(jSeparator2);
 
         mItemSair.setText("Sair");
         mItemSair.addActionListener(new java.awt.event.ActionListener() {
@@ -473,6 +490,38 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menEditar.add(mitemEditaProduto);
 
         jMenuBar1.add(menEditar);
+
+        jMenu5.setText("Base de Dados");
+
+        radGroupBaseDeDados.add(radArquivo);
+        radArquivo.setText("Arquivo");
+        radArquivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radArquivoActionPerformed(evt);
+            }
+        });
+        jMenu5.add(radArquivo);
+
+        radGroupBaseDeDados.add(radSerial);
+        radSerial.setText("Serial");
+        radSerial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radSerialActionPerformed(evt);
+            }
+        });
+        jMenu5.add(radSerial);
+
+        radGroupBaseDeDados.add(radJDBC);
+        radJDBC.setSelected(true);
+        radJDBC.setText("JDBC");
+        radJDBC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radJDBCActionPerformed(evt);
+            }
+        });
+        jMenu5.add(radJDBC);
+
+        jMenuBar1.add(jMenu5);
 
         menAjuda.setText("Ajuda");
 
@@ -602,9 +651,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_HandlerRemoveMesa
 
     private void mitemAdicionaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaProdutoActionPerformed
-        TelaAdicionaProduto tAddProduto = new TelaAdicionaProduto();
-        tAddProduto.setVisible(true);       
-        
+        try {
+            TelaAdicionaProduto tAddProduto = new TelaAdicionaProduto();
+            tAddProduto.setVisible(true);
+            
+            //Atualiza tabela Extras
+            tabelaExtras.setModel(new ResultSetTableModel(
+                    "SELECT Produto,Descricao,Valor FROM Extras"));
+            
+            //Atualiza tabela Pizzas
+            tabelaPizzas.setModel(new ResultSetTableModel(
+                    "SELECT Pizza, P, M, G FROM Pizzas"));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         
     }//GEN-LAST:event_mitemAdicionaProdutoActionPerformed
 
@@ -660,6 +720,39 @@ public class TelaPrincipal extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_mItemSairActionPerformed
 
+    private void radArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radArquivoActionPerformed
+        //Alterna a base de dados
+        baseDados = BaseDados.Arquivo;
+        
+        //criar código para alterar a visualização
+    }//GEN-LAST:event_radArquivoActionPerformed
+
+    private void radSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radSerialActionPerformed
+        //Alterna a base de dados
+        baseDados = BaseDados.Serial;
+        
+        //criar código para alterar a visualização
+    }//GEN-LAST:event_radSerialActionPerformed
+
+    private void radJDBCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radJDBCActionPerformed
+        try {
+            //Alterna a base de dados
+            baseDados = BaseDados.JDBC;
+            
+            //altera visualização
+            tabelaMesas.setModel(new ResultSetTableModel("SELECT Mesa,Ocupado FROM Mesas"));
+            tabelaPizzas.setModel(new ResultSetTableModel("SELECT Pizza,P,M,G FROM Pizzas"));
+            tabelaExtras.setModel(
+                    new ResultSetTableModel("SELECT Produto,Descricao,Valor FROM Extras"));
+            tabelaPedidosMesa.setModel(new ResultSetTableModel(
+                    "SELECT Nome, Descricao, Qtde, Valor FROM Pedidos WHERE Mesa=1"));
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, 
+                    "Erro ao alternar base de dados", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_radJDBCActionPerformed
+
     
     
     /**
@@ -709,7 +802,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -721,6 +818,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel lblDescricaoMesa;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblMesas;
@@ -738,6 +836,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mitemInstrucoes;
     private javax.swing.JMenuItem mitemRemoveMesa;
     private javax.swing.JMenuItem mitemSobre;
+    private javax.swing.JRadioButtonMenuItem radArquivo;
+    private javax.swing.ButtonGroup radGroupBaseDeDados;
+    private javax.swing.JRadioButtonMenuItem radJDBC;
+    private javax.swing.JRadioButtonMenuItem radSerial;
     private javax.swing.JSpinner spnQtdeDeItens;
     private javax.swing.JTable tabelaExtras;
     private javax.swing.JTable tabelaMesas;

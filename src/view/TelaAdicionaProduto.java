@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.ProdutoController;
 import javax.swing.ButtonModel;
 
 /**
@@ -214,10 +215,24 @@ public class TelaAdicionaProduto extends javax.swing.JFrame {
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         //verifica qual o tipo de produto
         if(radPizza.isSelected()){
+            //criar pizza
+            ProdutoController prodController = new ProdutoController();
             
+            //aciona o controlador para criar o produto
+            prodController.criaProduto(
+                    txtNome.getText(),
+                    Double.parseDouble(txtValor1.getText()),
+                    Double.parseDouble(txtValor2.getText()),
+                    Double.parseDouble(txtValor3.getText()));
         }
         else{
-            
+            //criar extra
+            ProdutoController prodController = new ProdutoController();
+            prodController.criaProduto(
+                    txtNome.getText(),
+                    txtValor1.getText(),                     //descricao
+                    Double.parseDouble(txtValor2.getText())  //valor
+                    );
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed
 

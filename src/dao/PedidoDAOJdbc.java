@@ -5,14 +5,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import model.Extras;
 import model.Pedido;
-import model.Produto;
 
 
 /**
  *
  * @author helder
  */
-public class PedidoJdbcDAO {
+public class PedidoDAOJdbc implements PedidoDAO{
     
     private Statement comando;
     private ResultSet resultado;        
@@ -48,7 +47,7 @@ public class PedidoJdbcDAO {
             
             Pedido pedido = new Pedido(produto, qtde);
             
-            MesaJdbcDAO mesaDAO = new MesaJdbcDAO();
+            MesaDAOJdbc mesaDAO = new MesaDAOJdbc();
             mesaDAO.acrescentarPedido(pedido, mesa);
             
             
