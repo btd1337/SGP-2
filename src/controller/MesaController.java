@@ -13,20 +13,20 @@ public class MesaController {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void adicionaPedido(JTable tabela) {
+    public void adicionaPedido() {
         
     }
 
-    public void adicionaMesa(JTable tabela) {
+    public void adicionaMesa() {
         MesaJdbcDAO mesa = new MesaJdbcDAO();
         
-        mesa.addMesa(tabela);
+        mesa.addMesa();
     }
 
-    public void removeMesa(JTable tabela) {
+    public void removeMesa() {
         MesaJdbcDAO mesa = new MesaJdbcDAO();
         
-        mesa.removeMesa(tabela);
+        mesa.removeMesa();
     }
 
     public void cancelaPedido() {

@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import model.Extras;
 
 /**
  *
@@ -23,28 +24,43 @@ public class MesaJdbcDAO implements MesaDAO {
     private ResultSetMetaData resultadoMD;
     private ConexaoDAO conexao = new ConexaoDAO();
     
-    public void removeMesa(JTable tabela){
+    public void removeMesa(){
         
         int ultimaMesa = 1;    //determina ultima mesa
         conexao.conectar();
         comando = conexao.getComando();
         
+        
         try{
+            
+            //verificar se a mesa a ser excluida tem pedidos em aberto            
             resultado = comando.executeQuery("SELECT Mesa FROM Mesas");
             
             resultado.last();                   //encontra a última linha da tabela
             ultimaMesa = resultado.getInt("Mesa");    //obtem número da última mesa
             
-            //deleta ultima mesa
-            comando.executeUpdate(
-                    "DELETE FROM Mesas WHERE Mesa = '" + ultimaMesa + "'");
+            //Procura pedidos para a mesa a ser removida
+            resultado = comando.executeQuery(
+                    "SELECT Mesa FROM Pedidos WHERE Mesa='" + ultimaMesa + "'");
             
-            
-            tabela.setModel(new ResultSetTableModel("SELECT Mesa, Ocupado FROM Mesas"));
-            
-            JOptionPane.showMessageDialog(
-                    null, "Mesa removida com sucesso!","Mesas",JOptionPane.INFORMATION_MESSAGE);
-            
+            //caso tenha pedidos
+            if(resultado.next()){
+                JOptionPane.showMessageDialog(
+                        null, 
+                        "Para remover uma mesa é necessário que ela não tenha pedidos em aberto!",
+                        "Erro ao Remover Mesa",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            //caso não tenha pedidos
+            else{
+                //deleta ultima mesa
+                comando.executeUpdate(
+                        "DELETE FROM Mesas WHERE Mesa = '" + ultimaMesa + "'");
+
+
+                JOptionPane.showMessageDialog(
+                        null, "Mesa removida com sucesso!","Mesas",JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (SQLException ex) {
         conexao.imprimeErro("Erro ao remover mesa!", ex.getMessage());
         
@@ -53,7 +69,7 @@ public class MesaJdbcDAO implements MesaDAO {
         }
     }
         
-    public void addMesa(JTable tabela) {
+    public void addMesa() {
         int numMesas;
         conexao.conectar();
         comando = conexao.getComando();
@@ -61,8 +77,6 @@ public class MesaJdbcDAO implements MesaDAO {
             //insere nova mesa
             comando.executeUpdate("INSERT INTO Mesas(Nome,Ocupado) VALUES('Mesa',false)");       
             
-            //Atualiza tabela
-            tabela.setModel(new ResultSetTableModel("SELECT Mesa, Ocupado FROM Mesas"));
                     
             JOptionPane.showMessageDialog(
                     null, "Mesa adicionada com sucesso!","Mesas",JOptionPane.INFORMATION_MESSAGE);
@@ -141,12 +155,15 @@ public class MesaJdbcDAO implements MesaDAO {
             //caso o pedido seja igual
             comando = conexao.getComando();
             
+            
+            
             //Traz os pedidos semelhantes para a mesa informada
+            if(p.getProduto() instanceof Extras){
             resultado = comando.executeQuery(
                     "SELECT Qtde, Valor FROM Pedidos WHERE Mesa = '" + 
                     mesa + "' Nome = '" + p.getProduto().getNome() +
                     "', Descricao = '" + p.getProduto().getDescricao() + "'");
-            
+        }
             //caso o produto já tenha sido pedido
             if(resultado.next()){
                 int qtde;       //qtde atual pedida
@@ -211,7 +228,7 @@ public class MesaJdbcDAO implements MesaDAO {
                 }
                 else{           
                     //atualiza quantidade
-                    valorAtual -= (p.getProduto().getValor() * qtde);
+                    valorAtual -= (p.getProduto().getValor1() * qtde);
 
                     comando.executeUpdate(
                             "UPDATE PedidosMesa'" + mesa + "' SET qtde = '"

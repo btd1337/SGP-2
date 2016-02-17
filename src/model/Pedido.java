@@ -12,12 +12,12 @@ public class Pedido {
     public Pedido(Produto mercadoria, int qtdeDeItens) {
         this.produto = mercadoria;
         this.qtdeDoProduto = qtdeDeItens;
-        this.valorDoPedido = mercadoria.getValor()*qtdeDeItens;
+        this.valorDoPedido = mercadoria.getValor1()*qtdeDeItens;
     }
     
     //Construtor auxiliar todo zerado
     Pedido() {
-        Produto p = new Produto("","",0.00);
+        Produto p = new Produto("",0.00);
         this.produto = p;
         this.qtdeDoProduto = 0;
         this.valorDoPedido = 0.00;
@@ -38,12 +38,12 @@ public class Pedido {
     //Adiciona novos itens após já ter sido feito o pedido
     public void addItem(int qtde){
         this.qtdeDoProduto += qtde;
-        this.valorDoPedido = produto.getValor()*qtdeDoProduto;
+        this.valorDoPedido = produto.getValor1()*qtdeDoProduto;
     }
     
     public void cancelarItem(int qtde){
         this.qtdeDoProduto -= qtde;
-        this.valorDoPedido = produto.getValor()*qtdeDoProduto;
+        this.valorDoPedido = produto.getValor1()*qtdeDoProduto;
     }
 
     @Override

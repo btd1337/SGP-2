@@ -576,17 +576,29 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_HandlerAdicionaPedido
 
     private void mitemAdicionaMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaMesaActionPerformed
-        MesaController m = new MesaController();
-        
-        m.adicionaMesa(tabelaMesas);
-        
-      
+        try {
+            MesaController m = new MesaController();
+            
+            m.adicionaMesa();
+            
+            tabelaMesas.setModel(
+                    new ResultSetTableModel("SELECT Mesa, Ocupado FROM Mesas"));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_mitemAdicionaMesaActionPerformed
 
     private void HandlerRemoveMesa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerRemoveMesa
-        MesaController m = new MesaController();
-        
-        m.removeMesa(tabelaMesas);
+        try {
+            MesaController m = new MesaController();
+            
+            m.removeMesa();
+            
+            tabelaMesas.setModel(new ResultSetTableModel("SELECT Mesa, Ocupado FROM Mesas"));
+        } catch (SQLException ex) {
+            
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_HandlerRemoveMesa
 
     private void mitemAdicionaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaProdutoActionPerformed

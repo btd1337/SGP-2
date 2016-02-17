@@ -3,6 +3,7 @@ package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import model.Extras;
 import model.Pedido;
 import model.Produto;
 
@@ -42,7 +43,9 @@ public class PedidoJdbcDAO {
             valor = resultado.getDouble("Valor");            
             
             //cria objetos para passar para o método da classe MesaDAO
-            Produto produto = new Produto(nome, descricao, valor);
+            Extras produto = new Extras(nome, valor);
+            produto.setDescricao(descricao);
+            
             Pedido pedido = new Pedido(produto, qtde);
             
             MesaJdbcDAO mesaDAO = new MesaJdbcDAO();
