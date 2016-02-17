@@ -9,12 +9,14 @@ public class Produto {
     private String descricao;
     private double valor;
 
-    public Produto(String nome, double valor) {
+    public Produto(String nome, String descricao, double valor) {
         
         //primeira letra maiúscula
         nome = nome.substring(0,1).toUpperCase().concat(nome.substring(1));
+        descricao = descricao.substring(0,1).toUpperCase().concat(descricao.substring(1));
         
         this.nome = nome;
+        this.descricao = descricao;
         this.valor = valor;
     }
 
@@ -45,7 +47,7 @@ public class Produto {
     
     @Override
     public String toString() {
-        return nome + "          R$" + valor;
+        return nome + " - " + descricao + "-  R$" + valor;
     }
     
 }

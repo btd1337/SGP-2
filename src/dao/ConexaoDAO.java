@@ -1,8 +1,11 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +21,7 @@ public class ConexaoDAO {
     
     private Connection conexao;
     private Statement comando;
+    private ResultSet resultado;
     
     public void conectar(){
         try{
@@ -49,11 +53,23 @@ public class ConexaoDAO {
         
         System.err.println(msg);
         System.out.println(msgErro);
-        System.exit(0);
     }
 
     public Statement getComando() {
         return comando;
+    }
+
+    
+    public ResultSet getResultado(String query) {
+        
+        try {
+            resultado = comando.executeQuery(query);
+            return resultado;
+        } catch (SQLException ex) {
+            imprimeErro("Erro ao executar Query", ex.getMessage());
+        }
+        
+        return null;    //caso aconteça algum erro
     }
 
     

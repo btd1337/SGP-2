@@ -14,29 +14,29 @@ import model.Pedido;
  */
 public interface MesaDAO {
     
-    public int getNumIDMesa();
+    public int getNumIDMesa(int mesa);
 
-    public boolean isOcupacaoMesa();
+    public boolean isOcupacaoMesa(int mesa);
 
-    public void setOcupacaoMesa(boolean ocupacaoMesa);  
+    public void setOcupacaoMesa(boolean ocupacaoMesa, int mesa);  
     
-    public void acrescentarPedido(Pedido p);
+    public void acrescentarPedido(Pedido p, int mesa);
 
-    public void cancelarPedido(Pedido produto, int qtde);
+    public void cancelarPedido(Pedido produto, int qtde, int mesa);
 
-    public double getTotalPagar();
+    public double getTotalPagar(int mesa);
 
-    public void setTotalPagar(double totalPagar);
+    public void setTotalPagar(double totalPagar, int mesa);
     
-    public void abrirMesa();
+    public void abrirMesa(int mesa);
     
-    public void fecharComanda();
+    public void fecharComanda(int mesa);
 
-    public String getHorarioEntrada();
+    public String getHorarioEntrada(int mesa);
 
-    public String getHorarioSaida();
+    public String getHorarioSaida(int mesa);
 
-    public ArrayList<Pedido> getPedidos();    
+    public ArrayList<Pedido> getPedidos(int mesa);    
 
     @Override
     public String toString();

@@ -200,69 +200,50 @@ public class MesaJdbcDAO implements MesaDAO {
         } finally{
             conexao.desconectar();
         }
-    }    
-    
-    
-    
-    
+    } 
 
     @Override
-    public int getNumIDMesa() {
+    public int getNumIDMesa(int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isOcupacaoMesa() {
+    public boolean isOcupacaoMesa(int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setOcupacaoMesa(boolean ocupacaoMesa) {
+    public void setOcupacaoMesa(boolean ocupacaoMesa, int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void acrescentarPedido(Pedido p) {
+    public double getTotalPagar(int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void cancelarPedido(Pedido produto, int qtde) {
+    public void setTotalPagar(double totalPagar, int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double getTotalPagar() {
+    public void fecharComanda(int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setTotalPagar(double totalPagar) {
+    public String getHorarioEntrada(int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void abrirMesa() {
+    public String getHorarioSaida(int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void fecharComanda() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getHorarioEntrada() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getHorarioSaida() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<Pedido> getPedidos() {
+    public ArrayList<Pedido> getPedidos(int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

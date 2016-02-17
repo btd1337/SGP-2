@@ -515,31 +515,45 @@ public class TelaPrincipal extends javax.swing.JFrame {
         int tabelaPizzasLinhaSelecionada;
         int tabelaExtrasLinhaSelecionada;
         int mesaSelecionada;
+        int qtde;
         
         mesaSelecionada  = tabelaMesas.getSelectedRow();
         tabelaPizzasLinhaSelecionada = tabelaPizzas.getSelectedRow();
         tabelaExtrasLinhaSelecionada = tabelaExtras.getSelectedRow();
+        qtde = (int) spnQtdeDeItens.getValue(); //captura a qtde de itens pedidos
         
         if(mesaSelecionada <= 0){
             JOptionPane.showMessageDialog(
                     null, "Selecione a mesa para realizar o pedido!","Atenção",
                     JOptionPane.INFORMATION_MESSAGE);
-        }        
+        }
+        else if(qtde <=0 ){
+            JOptionPane.showMessageDialog(
+                    null, "Quantidade de itens deve ser maior que 0!","Atenção",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
         //caso tenha uma linha da tabela de pizzas selecionada
         else if(tabelaPizzasLinhaSelecionada>0){
-            PedidoController pedido = new PedidoController();
+           
             
-            pedido.adicionaPedido(
-                    PizzariaEnum.TABELAPIZZAS.getValor, tabelaPizzasLinhaSelecionada,
-                    mesaSelecionada);
+            TelaTamanhoPizza tela = new TelaTamanhoPizza();
+            
+            //envia a informação da linha e da mesa selecionados
+            //janela verifica qual o tamanho da pizza e inicia a construção
+            //do pedido
+            tela.setLinhaSelecionada(tabelaPizzasLinhaSelecionada);
+            tela.setMesaSelecionada(mesaSelecionada);
+            tela.setQtde(qtde);
+            tela.setVisible(true);
+            tela.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+            
         }
         //caso tenha uma linha da tabela de extras selecionada
         else if(tabelaExtrasLinhaSelecionada>0){
             PedidoController pedido = new PedidoController();
             
-            pedido.adicionaPedido(
-                    PizzariaEnum.TABELAEXSTRAS.getValor, tabelaPizzasLinhaSelecionada,
-                    mesaSelecionada);
+            pedido.adicionaPedido(tabelaPizzasLinhaSelecionada,mesaSelecionada,qtde);
         }
         else{
             JOptionPane.showMessageDialog(

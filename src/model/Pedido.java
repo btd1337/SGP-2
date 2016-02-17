@@ -17,7 +17,7 @@ public class Pedido {
     
     //Construtor auxiliar todo zerado
     Pedido() {
-        Produto p = new Produto(" ",0.00);
+        Produto p = new Produto("","",0.00);
         this.produto = p;
         this.qtdeDoProduto = 0;
         this.valorDoPedido = 0.00;
