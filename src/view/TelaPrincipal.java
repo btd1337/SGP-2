@@ -1,29 +1,18 @@
 package view;
 
+import controller.DBController;
 import dao.ResultSetTableModel;
 
 import controller.MesaController;
 import controller.PedidoController;
-import model.Produto;
-import model.Pedido;
-import model.Mesa;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import controller.ProdutoController;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.BaseDados;
-import model.PizzariaEnum;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -35,11 +24,7 @@ import model.PizzariaEnum;
  *
  * @author btd
  */
-public class TelaPrincipal extends javax.swing.JFrame {
-
-
-    private BaseDados baseDados = BaseDados.JDBC;
-    
+public class TelaPrincipal extends javax.swing.JFrame {    
     
     public TelaPrincipal() throws SQLException {
         initComponents();
@@ -83,7 +68,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jScrollPane2 = new javax.swing.JScrollPane();
             tabelaExtras = new javax.swing.JTable();
             jScrollPane3 = new javax.swing.JScrollPane();
-            tabelaPizzas = new javax.swing.JTable();
+            tabelaPizzas = new javax.swing.JTable(new ResultSetTableModel("SELECT Pizza, P, M, G FROM Pizzas"));
             jMenuBar1 = new javax.swing.JMenuBar();
             menOpcoes = new javax.swing.JMenu();
             mitemAdicionaMesa = new javax.swing.JMenuItem();
@@ -359,12 +344,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         catch(SQLException ex){
             ex.printStackTrace();
         }
-
-        tabelaPizzas.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent event) {
-                tabelaExtras.getSelectionModel().clearSelection();
-            }
-        });
         jScrollPane3.setViewportView(tabelaPizzas);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -561,6 +540,50 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void atualizaTabelaPizzas(){
+        BaseDados base = DBController.getBaseDados();
+       switch(base){
+            case Arquivo: break;
+
+            case Serial: break;
+
+            case JDBC: 
+            {
+                try {
+                    tabelaPizzas.setModel(
+                            new ResultSetTableModel(
+                                    "SELECT Pizza,P,M,G FROM Pizzas"));
+
+                    break;
+                } catch (SQLException ex) {
+                        ex.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    public void atualizaTabelaExtras(){
+        BaseDados base = DBController.getBaseDados();
+       switch(base){
+            case Arquivo: break;
+
+            case Serial: break;
+
+            case JDBC: 
+            {
+                try {
+                    tabelaExtras.setModel(
+                            new ResultSetTableModel(
+                                    "SELECT Produto, Descricao, Valor FROM Extras"));
+
+                    break;
+                } catch (SQLException ex) {
+                        ex.printStackTrace();
+                }
+            }
+        }
+    }
+    
     private void HandlerFechaComanda(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerFechaComanda
         MesaController m = new MesaController();
         
@@ -610,7 +633,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         else if(tabelaExtrasLinhaSelecionada>0){
             PedidoController pedido = new PedidoController();
             
-            pedido.adicionaPedido(tabelaPizzasLinhaSelecionada,mesaSelecionada,qtde);
+            pedido.adicionaPedido(
+                    tabelaPizzasLinhaSelecionada,mesaSelecionada,qtde);
             
             JOptionPane.showMessageDialog(
                     null, "Produto Adicionado!", "Novo Produto",
@@ -625,46 +649,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_HandlerAdicionaPedido
 
     private void mitemAdicionaMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaMesaActionPerformed
-        try {
-            MesaController m = new MesaController();
-            
+            MesaController m = new MesaController();            
             m.adicionaMesa();
             
-            tabelaMesas.setModel(
-                    new ResultSetTableModel("SELECT Mesa, Ocupado FROM Mesas"));
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+            atualizaTabelaMesas();
+            
     }//GEN-LAST:event_mitemAdicionaMesaActionPerformed
 
     private void HandlerRemoveMesa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerRemoveMesa
-        try {
-            MesaController m = new MesaController();
-            
+
+            MesaController m = new MesaController();            
             m.removeMesa();
             
-            tabelaMesas.setModel(new ResultSetTableModel("SELECT Mesa, Ocupado FROM Mesas"));
-        } catch (SQLException ex) {
-            
-            ex.printStackTrace();
-        }
+            atualizaTabelaMesas();
+
     }//GEN-LAST:event_HandlerRemoveMesa
 
     private void mitemAdicionaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaProdutoActionPerformed
-        try {
+
             TelaAdicionaProduto tAddProduto = new TelaAdicionaProduto();
             tAddProduto.setVisible(true);
-            
-            //Atualiza tabela Extras
-            tabelaExtras.setModel(new ResultSetTableModel(
-                    "SELECT Produto,Descricao,Valor FROM Extras"));
-            
-            //Atualiza tabela Pizzas
-            tabelaPizzas.setModel(new ResultSetTableModel(
-                    "SELECT Pizza, P, M, G FROM Pizzas"));
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
         
     }//GEN-LAST:event_mitemAdicionaProdutoActionPerformed
 
@@ -680,16 +684,103 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_HandlerBtnCancelaPedido
 
     private void mItemRemoveProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemRemoveProdutoActionPerformed
-        MesaController m = new MesaController();
         
-        m.removeProduto();
+        int tabelaPizzasLinhaSelecionada;
+        int tabelaExtrasLinhaSelecionada;
+        
+        tabelaPizzasLinhaSelecionada = tabelaPizzas.getSelectedRow() +1;
+        tabelaExtrasLinhaSelecionada = tabelaExtras.getSelectedRow() +1;
+        
+        if(tabelaPizzasLinhaSelecionada>0){
+           
+            int op = JOptionPane.showConfirmDialog(null, "Confirmar Exclusão?");
+            
+            if(op==0){  //caso confirme
+                ProdutoController produto = new ProdutoController();
+                
+                produto.removePizza(tabelaPizzasLinhaSelecionada);
+                
+                //atualiza tabela
+                BaseDados base = DBController.getBaseDados();
+                switch(base){
+                    case Arquivo: break;
+
+                    case Serial: break;
+
+                    case JDBC: 
+                    {
+                        try {
+                            tabelaPizzas.setModel(
+                                    new ResultSetTableModel("SELECT Pizza, P,M,G FROM Pizzas"));
+
+                            break;
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+                
+            }
+                      
+            
+        }
+        //caso tenha uma linha da tabela de extras selecionada
+        else if(tabelaExtrasLinhaSelecionada>0){
+            
+            int op = JOptionPane.showConfirmDialog(null, "Confirmar Exclusão?");
+            
+            if(op==0){  //caso confirme
+                ProdutoController produto = new ProdutoController();
+                
+                produto.removeExtra(tabelaExtrasLinhaSelecionada);
+                
+                //atualiza tabela
+                BaseDados base = DBController.getBaseDados();
+                switch(base){
+                    case Arquivo: break;
+
+                    case Serial: break;
+
+                    case JDBC: 
+                    {
+                        try {
+                            tabelaExtras.setModel(new ResultSetTableModel(
+                                "SELECT Produto, Descricao,Valor FROM Extras"));
+
+                            break;
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(
+                    null, "Nenhum produto foi selecionado!","Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_mItemRemoveProdutoActionPerformed
 
     private void HandlerBtnAbreMesa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerBtnAbreMesa
-        int idMesa = 1;
-        MesaController m = new MesaController();
-         
-        m.abreMesa(idMesa);
+        int mesaSelecionada;
+        
+        mesaSelecionada  = tabelaMesas.getSelectedRow() +1;
+        
+        if(mesaSelecionada>0){
+            MesaController m = new MesaController();         
+            m.abreMesa(mesaSelecionada);
+            
+            atualizaTabelaMesas();
+        }
+        else{
+            //caso nenhuma mesa esteja selecionada
+            JOptionPane.showMessageDialog(
+                    null, "Erro: Nenhuma mesa está selecionada!","Abrir Mesa",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_HandlerBtnAbreMesa
 
     private void HandlerEditaItem(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerEditaItem
@@ -722,14 +813,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void radArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radArquivoActionPerformed
         //Alterna a base de dados
-        baseDados = BaseDados.Arquivo;
+        controller.DBController.setBaseDados(BaseDados.Arquivo);
         
         //criar código para alterar a visualização
     }//GEN-LAST:event_radArquivoActionPerformed
 
     private void radSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radSerialActionPerformed
         //Alterna a base de dados
-        baseDados = BaseDados.Serial;
+        controller.DBController.setBaseDados(BaseDados.Serial);
         
         //criar código para alterar a visualização
     }//GEN-LAST:event_radSerialActionPerformed
@@ -737,7 +828,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void radJDBCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radJDBCActionPerformed
         try {
             //Alterna a base de dados
-            baseDados = BaseDados.JDBC;
+            controller.DBController.setBaseDados(BaseDados.JDBC);
             
             //altera visualização
             tabelaMesas.setModel(new ResultSetTableModel("SELECT Mesa,Ocupado FROM Mesas"));
@@ -847,6 +938,283 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable tabelaPizzas;
     private javax.swing.JTextField txtHorarioEntrada;
     // End of variables declaration//GEN-END:variables
+
+    private void atualizaTabelaMesas() {
+       BaseDados base = DBController.getBaseDados();
+       switch(base){
+            case Arquivo: break;
+
+            case Serial: break;
+
+            case JDBC: 
+            {
+                try {
+                    tabelaMesas.setModel(
+                            new ResultSetTableModel("SELECT Mesa, Ocupado FROM Mesas"));
+
+                    break;
+                } catch (SQLException ex) {
+                        ex.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    public class TelaAdicionaProduto extends javax.swing.JFrame {
+
+    
+    
+    
+    public TelaAdicionaProduto() {
+        initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        radGroupTipo = new javax.swing.ButtonGroup();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        lblAdicionarProduto = new javax.swing.JLabel();
+        lblTipo = new javax.swing.JLabel();
+        radPizza = new javax.swing.JRadioButton();
+        radExtras = new javax.swing.JRadioButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblNome = new javax.swing.JLabel();
+        lblValor2 = new javax.swing.JLabel();
+        lblValor3 = new javax.swing.JLabel();
+        lblValor1 = new javax.swing.JLabel();
+        txtNome = new javax.swing.JTextField();
+        txtValor1 = new javax.swing.JTextField();
+        txtValor2 = new javax.swing.JTextField();
+        txtValor3 = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JButton();
+        btnConfirmar = new javax.swing.JButton();
+
+        radGroupTipo.add(radExtras);
+        radGroupTipo.add(radPizza);
+
+        jLabel5.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        jLabel5.setText("Descrição:");
+
+        jLabel8.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        jLabel8.setText("Valor (R$):");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lblAdicionarProduto.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        lblAdicionarProduto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAdicionarProduto.setText("ADICIONAR PRODUTO");
+
+        lblTipo.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        lblTipo.setText("Tipo:");
+
+        radGroupTipo.add(radPizza);
+        radPizza.setSelected(true);
+        radPizza.setText("Pizza");
+        radPizza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPizzaActionPerformed(evt);
+            }
+        });
+
+        radGroupTipo.add(radExtras);
+        radExtras.setText("Extras");
+        radExtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radExtrasActionPerformed(evt);
+            }
+        });
+
+        lblNome.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        lblNome.setText("Nome:");
+
+        lblValor2.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        lblValor2.setText("M (R$):");
+
+        lblValor3.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        lblValor3.setText("G (R$):");
+
+        lblValor1.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        lblValor1.setText("P (R$):");
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(radPizza)
+                .addGap(18, 18, 18)
+                .addComponent(radExtras)
+                .addGap(95, 95, 95))
+            .addComponent(jSeparator1)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAdicionarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnConfirmar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTipo)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblValor3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtValor3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblValor1)
+                            .addComponent(lblNome)
+                            .addComponent(lblValor2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtValor2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtValor1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAdicionarProduto)
+                .addGap(18, 18, 18)
+                .addComponent(lblTipo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radPizza)
+                    .addComponent(radExtras))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNome)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtValor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblValor1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblValor2)
+                    .addComponent(txtValor2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblValor3)
+                    .addComponent(txtValor3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnConfirmar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    
+    private void radPizzaActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        //Exibe a ultima label
+        lblValor1.setText("P (R$):");
+        lblValor2.setText("M (R$):");
+        lblValor3.setVisible(true);
+        txtValor3.setVisible(true);
+        
+    }   
+    
+
+    private void radExtrasActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        lblValor1.setText("Descrição:");
+        lblValor2.setText("Valor (R$):");
+        lblValor3.setVisible(false);
+        txtValor3.setVisible(false);
+    }                                         
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        //fecha a janela
+        dispose();
+    }                                           
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        //verifica qual o tipo de produto
+        if(radPizza.isSelected()){
+            //criar pizza
+            ProdutoController prodController = new ProdutoController();
+            
+            //aciona o controlador para criar o produto
+            prodController.criaProduto(
+                    txtNome.getText(),
+                    Double.parseDouble(txtValor1.getText()),
+                    Double.parseDouble(txtValor2.getText()),
+                    Double.parseDouble(txtValor3.getText()));
+            atualizaTabelaPizzas();
+        }
+        else{
+            //criar extra
+            ProdutoController prodController = new ProdutoController();
+            
+            //aciona o controlador para criar o produto
+            prodController.criaProduto(
+                    txtNome.getText(),
+                    txtValor1.getText(),                     //descricao
+                    Double.parseDouble(txtValor2.getText())  //valor
+                    );
+            
+            atualizaTabelaExtras();
+        }
+        
+    }                                            
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnConfirmar;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel lblAdicionarProduto;
+    private javax.swing.JLabel lblNome;
+    private javax.swing.JLabel lblTipo;
+    private javax.swing.JLabel lblValor1;
+    private javax.swing.JLabel lblValor2;
+    private javax.swing.JLabel lblValor3;
+    private javax.swing.JRadioButton radExtras;
+    private javax.swing.ButtonGroup radGroupTipo;
+    private javax.swing.JRadioButton radPizza;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtValor1;
+    private javax.swing.JTextField txtValor2;
+    private javax.swing.JTextField txtValor3;
+    // End of variables declaration                   
+
+}
 
 
 }

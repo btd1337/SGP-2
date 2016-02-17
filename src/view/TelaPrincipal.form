@@ -757,7 +757,8 @@
                     <Property name="rowHeight" type="int" value="20"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="}&#xa;catch(SQLException ex){&#xa;    ex.printStackTrace();&#xa;}&#xa;&#xa;tabelaPizzas.getSelectionModel().addListSelectionListener(new ListSelectionListener(){&#xa;        public void valueChanged(ListSelectionEvent event) {&#xa;            tabelaExtras.getSelectionModel().clearSelection();            &#xa;        }&#xa;    });"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(new ResultSetTableModel(&quot;SELECT Pizza, P, M, G FROM Pizzas&quot;))"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="}&#xa;catch(SQLException ex){&#xa;    ex.printStackTrace();&#xa;}"/>
                     <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="try{"/>
                   </AuxValues>
                 </Component>

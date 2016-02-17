@@ -129,10 +129,12 @@ public class MesaDAOJdbc implements MesaDAO {
         conexao.conectar();
         try {
             
+            comando = conexao.getComando();
+            
             //seta o horário de entrada e ocupa a mesa
             comando.executeUpdate(
-                    "UPDATE Mesas SET horarioEntrada = CURRENT_TIMESTAMP,"
-                    + "ocupacao = true WHERE id = '" 
+                    "UPDATE Mesas SET Entrada = CURRENT_TIMESTAMP,"
+                    + "Ocupado = true WHERE Mesa = '" 
                     + MesaSelecionada + "'");
            
         } catch (SQLException ex) {

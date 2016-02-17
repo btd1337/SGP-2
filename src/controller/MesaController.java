@@ -1,7 +1,7 @@
 package controller;
 
 import dao.MesaDAOJdbc;
-import javax.swing.JTable;
+import model.BaseDados;
 
 /**
  *
@@ -10,35 +10,112 @@ import javax.swing.JTable;
 public class MesaController{
 
     public void fechaComanda() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BaseDados base = DBController.getBaseDados();
+        
+        switch(base){
+            case Arquivo: break;
+            
+            case Serial: break;
+            
+            case JDBC: 
+            {
+                
+                
+                break;
+            }
+        }
     }
 
     public void adicionaPedido() {
+        BaseDados base = DBController.getBaseDados();
         
+        switch(base){
+            case Arquivo: break;
+            
+            case Serial: break;
+            
+            case JDBC: 
+            {
+                
+                
+                break;
+            }
+        }
     }
 
     public void adicionaMesa() {
-        MesaDAOJdbc mesa = new MesaDAOJdbc();
+        BaseDados base = DBController.getBaseDados();
         
-        mesa.addMesa();
+        switch(base){
+            case Arquivo: break;
+            
+            case Serial: break;
+            
+            case JDBC: 
+            {
+                MesaDAOJdbc mesa = new MesaDAOJdbc();        
+                mesa.addMesa();
+                
+                break;
+            }
+        }
+        
+        
     }
 
     public void removeMesa() {
-        MesaDAOJdbc mesa = new MesaDAOJdbc();
+        BaseDados base = DBController.getBaseDados();
         
-        mesa.removeMesa();
+        switch(base){
+            case Arquivo: break;
+            
+            case Serial: break;
+            
+            case JDBC: 
+            {
+                MesaDAOJdbc mesa = new MesaDAOJdbc();        
+                mesa.removeMesa();
+                
+                break;
+            }
+        }
+        
     }
 
     public void cancelaPedido() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BaseDados base = DBController.getBaseDados();
+        
+        switch(base){
+            case Arquivo: break;
+            
+            case Serial: break;
+            
+            case JDBC: 
+            {
+                
+                
+                break;
+            }
+        }
     }
 
-    public void removeProduto() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public void abreMesa(int idMesa) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BaseDados base = DBController.getBaseDados();
+        
+        switch(base){
+            case Arquivo: break;
+            
+            case Serial: break;
+            
+            case JDBC: 
+            {
+                MesaDAOJdbc mesa = new MesaDAOJdbc();        
+                mesa.abrirMesa(idMesa);
+                
+                break;
+            }
+        }
     }
 
     

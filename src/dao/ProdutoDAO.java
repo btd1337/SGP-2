@@ -11,4 +11,9 @@ package dao;
  */
 public interface ProdutoDAO {
     
+    public void criaProduto(
+            String nome, double valor1, double valor2, double valor3 );
+    
+    public void criaProduto(
+            String nome, String descricao, double valor);
 }
