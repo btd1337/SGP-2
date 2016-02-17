@@ -525,9 +525,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         int mesaSelecionada;
         int qtde;
         
-        mesaSelecionada  = tabelaMesas.getSelectedRow();
-        tabelaPizzasLinhaSelecionada = tabelaPizzas.getSelectedRow();
-        tabelaExtrasLinhaSelecionada = tabelaExtras.getSelectedRow();
+        mesaSelecionada  = tabelaMesas.getSelectedRow() +1;
+        tabelaPizzasLinhaSelecionada = tabelaPizzas.getSelectedRow() +1;
+        tabelaExtrasLinhaSelecionada = tabelaExtras.getSelectedRow() +1;
         qtde = (int) spnQtdeDeItens.getValue(); //captura a qtde de itens pedidos
         
         if(mesaSelecionada <= 0){
@@ -562,6 +562,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             PedidoController pedido = new PedidoController();
             
             pedido.adicionaPedido(tabelaPizzasLinhaSelecionada,mesaSelecionada,qtde);
+            
+            JOptionPane.showMessageDialog(
+                    null, "Produto Adicionado!", "Novo Produto",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             JOptionPane.showMessageDialog(
@@ -569,9 +573,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
         
-        MesaController m = new MesaController();
-        
-        m.adicionaPedido();
     }//GEN-LAST:event_HandlerAdicionaPedido
 
     private void mitemAdicionaMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaMesaActionPerformed
@@ -589,7 +590,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_HandlerRemoveMesa
 
     private void mitemAdicionaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemAdicionaProdutoActionPerformed
-        TelaAddProduto tAddProduto = new TelaAddProduto();    
+        TelaAdicionaProduto tAddProduto = new TelaAdicionaProduto();
         tAddProduto.setVisible(true);       
         
         
@@ -733,65 +734,5 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField txtHorarioEntrada;
     // End of variables declaration//GEN-END:variables
 
-    private class TelaAddProduto extends JFrame{
-        
-        private JLabel lblNomeProduto;
-        private JLabel lblValorProduto;
-        private JTextField txtNomeProduto;
-        private JTextField txtValorProduto;
-        private JButton btnLimpar;
-        private JButton btnAdicionar;
 
-        public TelaAddProduto() {
-            super("Adicionar Produto");
-            //alinhamento à direita
-            setLayout(new FlowLayout(FlowLayout.TRAILING,5,15));
-            setVisible(false);
-            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            setSize(315, 150); 
-            setResizable(false);
-            setLocationRelativeTo(null);
-            
-            
-            lblNomeProduto = new JLabel("Nome do Produto");
-            lblValorProduto = new JLabel("Valor(R$)");
-            txtNomeProduto = new JTextField(15);
-            txtValorProduto = new JTextField(15);
-            btnLimpar = new JButton("Limpar");
-            btnAdicionar = new JButton("Adicionar");
-            
-            add(lblNomeProduto);
-            add(txtNomeProduto);
-            add(lblValorProduto);
-            add(txtValorProduto);
-            add(btnLimpar);
-            add(btnAdicionar);
-            
-            BtnLimparHandler btnLimparHandler = new BtnLimparHandler();
-            btnLimpar.addActionListener(btnLimparHandler);
-            
-            BtnAdicionarHandler btnAdicionarHandler = new BtnAdicionarHandler();
-            btnAdicionar.addActionListener(btnAdicionarHandler);
-        }
-        
-        private class BtnLimparHandler implements ActionListener{
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                txtNomeProduto.setText("");
-                txtValorProduto.setText("");
-            }
-            
-        }
-        
-        private class BtnAdicionarHandler implements ActionListener{
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            
-        }
-    }
 }

@@ -13,8 +13,8 @@ public class MesaController {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void adicionaPedido() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void adicionaPedido(JTable tabela) {
+        
     }
 
     public void adicionaMesa(JTable tabela) {

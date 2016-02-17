@@ -68,8 +68,6 @@ public class TelaTamanhoPizza extends javax.swing.JFrame {
         radGroupTamanhoPizza.add(radMedia);
         radGroupTamanhoPizza.add(radGrande);
 
-        radGroupTamanhoPizza.setSelected((ButtonModel)radPequena, true);
-
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -80,6 +78,8 @@ public class TelaTamanhoPizza extends javax.swing.JFrame {
         lblTamanhoPizza.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTamanhoPizza.setText("Qual o Tamanho da Pizza?");
 
+        radGroupTamanhoPizza.add(radPequena);
+        radPequena.setSelected(true);
         radPequena.setText("Pequena");
         radPequena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,6 +87,7 @@ public class TelaTamanhoPizza extends javax.swing.JFrame {
             }
         });
 
+        radGroupTamanhoPizza.add(radMedia);
         radMedia.setText("Media");
         radMedia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +95,7 @@ public class TelaTamanhoPizza extends javax.swing.JFrame {
             }
         });
 
+        radGroupTamanhoPizza.add(radGrande);
         radGrande.setText("Grande");
 
         btnCancelar.setText("Cancelar");

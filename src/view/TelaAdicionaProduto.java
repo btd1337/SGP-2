@@ -5,6 +5,8 @@
  */
 package view;
 
+import javax.swing.ButtonModel;
+
 /**
  *
  * @author helder
@@ -16,6 +18,9 @@ public class TelaAdicionaProduto extends javax.swing.JFrame {
      */
     public TelaAdicionaProduto() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -27,27 +32,28 @@ public class TelaAdicionaProduto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        radGroupTipo = new javax.swing.ButtonGroup();
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblAdicionarProduto = new javax.swing.JLabel();
+        lblTipo = new javax.swing.JLabel();
         radPizza = new javax.swing.JRadioButton();
         radExtras = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
         lblNome = new javax.swing.JLabel();
-        lblDescricao = new javax.swing.JLabel();
-        lbl1Valor = new javax.swing.JLabel();
-        lbl2Valor = new javax.swing.JLabel();
-        lbl3Valor = new javax.swing.JLabel();
+        lblValor2 = new javax.swing.JLabel();
+        lblValor3 = new javax.swing.JLabel();
+        lblValor1 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
-        txtDescricao = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        txtValor1 = new javax.swing.JTextField();
+        txtValor2 = new javax.swing.JTextField();
+        txtValor3 = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
+
+        radGroupTipo.add(radExtras);
+        radGroupTipo.add(radPizza);
 
         jLabel5.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         jLabel5.setText("Descrição:");
@@ -57,13 +63,15 @@ public class TelaAdicionaProduto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ADICIONAR PRODUTO");
+        lblAdicionarProduto.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        lblAdicionarProduto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAdicionarProduto.setText("ADICIONAR PRODUTO");
 
-        jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-        jLabel2.setText("Tipo:");
+        lblTipo.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        lblTipo.setText("Tipo:");
 
+        radGroupTipo.add(radPizza);
+        radPizza.setSelected(true);
         radPizza.setText("Pizza");
         radPizza.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,22 +79,25 @@ public class TelaAdicionaProduto extends javax.swing.JFrame {
             }
         });
 
+        radGroupTipo.add(radExtras);
         radExtras.setText("Extras");
+        radExtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radExtrasActionPerformed(evt);
+            }
+        });
 
         lblNome.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         lblNome.setText("Nome:");
 
-        lblDescricao.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-        lblDescricao.setText("Descrição:");
+        lblValor2.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        lblValor2.setText("M (R$):");
 
-        lbl1Valor.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-        lbl1Valor.setText("Valor (R$):");
+        lblValor3.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        lblValor3.setText("G (R$):");
 
-        lbl2Valor.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-        lbl2Valor.setText("Valor (R$):");
-
-        lbl3Valor.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-        lbl3Valor.setText("Valor (R$):");
+        lblValor1.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        lblValor1.setText("P (R$):");
 
         btnCancelar.setText("Cancelar");
 
@@ -97,7 +108,7 @@ public class TelaAdicionaProduto extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(84, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(radPizza)
                 .addGap(18, 18, 18)
                 .addComponent(radExtras)
@@ -106,43 +117,37 @@ public class TelaAdicionaProduto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNome)
-                        .addGap(34, 34, 34)
-                        .addComponent(txtNome))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl3Valor)
-                        .addGap(10, 10, 10)
-                        .addComponent(txtDescricao))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl1Valor)
-                        .addGap(10, 10, 10)
-                        .addComponent(jTextField3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl2Valor)
-                        .addGap(10, 10, 10)
-                        .addComponent(jTextField5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblDescricao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lblAdicionarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnConfirmar)))
+                        .addComponent(btnConfirmar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTipo)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblValor3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtValor3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblValor1)
+                            .addComponent(lblNome)
+                            .addComponent(lblValor2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtValor2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtValor1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lblAdicionarProduto)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(lblTipo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radPizza)
@@ -155,33 +160,41 @@ public class TelaAdicionaProduto extends javax.swing.JFrame {
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl3Valor))
+                    .addComponent(txtValor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblValor1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl1Valor)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblValor2)
+                    .addComponent(txtValor2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl2Valor)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDescricao))
+                    .addComponent(lblValor3)
+                    .addComponent(txtValor3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnConfirmar))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void radPizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPizzaActionPerformed
-        // TODO add your handling code here:
+        //Exibe a ultima label
+        lblValor1.setText("P (R$):");
+        lblValor2.setText("M (R$):");
+        lblValor3.setVisible(true);
+        txtValor3.setVisible(true);
+        
     }//GEN-LAST:event_radPizzaActionPerformed
+
+    private void radExtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radExtrasActionPerformed
+        lblValor1.setText("Descrição:");
+        lblValor2.setText("Valor (R$):");
+        lblValor3.setVisible(false);
+        txtValor3.setVisible(false);
+    }//GEN-LAST:event_radExtrasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,24 +234,22 @@ public class TelaAdicionaProduto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JLabel lbl1Valor;
-    private javax.swing.JLabel lbl2Valor;
-    private javax.swing.JLabel lbl3Valor;
-    private javax.swing.JLabel lblDescricao;
+    private javax.swing.JLabel lblAdicionarProduto;
     private javax.swing.JLabel lblNome;
+    private javax.swing.JLabel lblTipo;
+    private javax.swing.JLabel lblValor1;
+    private javax.swing.JLabel lblValor2;
+    private javax.swing.JLabel lblValor3;
     private javax.swing.JRadioButton radExtras;
+    private javax.swing.ButtonGroup radGroupTipo;
     private javax.swing.JRadioButton radPizza;
-    private javax.swing.JTextField txtDescricao;
     private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtValor1;
+    private javax.swing.JTextField txtValor2;
+    private javax.swing.JTextField txtValor3;
     // End of variables declaration//GEN-END:variables
 }

@@ -135,13 +135,17 @@ public class MesaJdbcDAO implements MesaDAO {
         //Verificar se elemento já foi pedido
         int linhaPedido;
         conexao.conectar();
-        ResultSet resultado;
+        
         try{
             //seleciona a coluna qtde e valor do medido da mesa desejada
             //caso o pedido seja igual
-            resultado = comando.executeQuery("SELECT qtde, valor FROM PedidosMesa'" + 
-                    mesa + "' WHERE nome = '" + p.getProduto().getNome()
-                    + "', descricao = '" + p.getProduto().getDescricao() + "'");
+            comando = conexao.getComando();
+            
+            //Traz os pedidos semelhantes para a mesa informada
+            resultado = comando.executeQuery(
+                    "SELECT Qtde, Valor FROM Pedidos WHERE Mesa = '" + 
+                    mesa + "' Nome = '" + p.getProduto().getNome() +
+                    "', Descricao = '" + p.getProduto().getDescricao() + "'");
             
             //caso o produto já tenha sido pedido
             if(resultado.next()){
@@ -149,23 +153,23 @@ public class MesaJdbcDAO implements MesaDAO {
                 double valor;   //valor atual pedido
                 //Encontra a linha onde o produto já foi pedido
                 linhaPedido = resultado.getRow();
-                qtde = resultado.getInt("qtde");
-                valor = resultado.getDouble("valor");
+                qtde = resultado.getInt("Qtde");
+                valor = resultado.getDouble("Valor");
                 
                 //atualiza valores
                 qtde += p.getQtdeDoProduto();
                 valor += p.getValorDoPedido();
                 
                 comando.executeUpdate(
-                        "UPDATE PedidosMesa'" + mesa + "' SET qtde = '"
-                        + qtde + "' ,valor = '" + valor
+                        "UPDATE Pedidos SET Qtde = '"
+                        + qtde + "' ,Valor = '" + valor
                         + "' WHERE id = '" + linhaPedido + "'" );
             }
             //caso o produto ainda não tenha sido pedido
             else{
                 comando.executeUpdate(
-                        "INSERT INTO PedidosMesa'" + mesa + 
-                        "' (nome,descricao,qtde, valor) VALUES ('" + 
+                        "INSERT INTO PedidosMesa(Mesa, Nome, Descricao, Qtde, Valor)"
+                        + " VALUES ('" + mesa + "','" +  
                         p.getProduto().getNome() + "','" + 
                         p.getProduto().getDescricao() + "','" + 
                         p.getQtdeDoProduto() + "','" +                         

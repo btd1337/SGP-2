@@ -2,8 +2,7 @@ package dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Statement;
 import model.Pedido;
 import model.Produto;
 
@@ -14,6 +13,9 @@ import model.Produto;
  */
 public class PedidoJdbcDAO {
     
+    private Statement comando;
+    private ResultSet resultado;        
+    
     //Para Produtos Extras
     public void adicionaPedido(int linhaSelecionada, int mesa, int qtde) {        
         
@@ -22,11 +24,12 @@ public class PedidoJdbcDAO {
             Double valor;          
             
             ConexaoDAO conexao = new ConexaoDAO();
-            ResultSet resultado;
+            
             conexao.conectar();
             
          try {   
             
+            comando = conexao.getComando();
             resultado = conexao.getResultado(
                     "SELECT Produto, Descricao, Valor FROM Extras");
             
