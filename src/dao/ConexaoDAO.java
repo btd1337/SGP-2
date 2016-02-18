@@ -46,7 +46,7 @@ public class ConexaoDAO {
     public void imprimeErro(String msg, String msgErro){
         
         JOptionPane.showMessageDialog(
-                    null, msg + "/n/n" + msgErro , "Erro Crítico", 
+                    null, msg + "\n\n" + msgErro , "Erro Crítico", 
                 JOptionPane.ERROR_MESSAGE);
         
         System.err.println(msg);

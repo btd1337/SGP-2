@@ -7,10 +7,10 @@ package dao;
 public interface PedidoDAO {
 
     //Para Extras
-    public void adicionaPedido(int linhaSelecionada, int mesa, int qtde);
+    public void adicionaPedidoExtra(int linhaSelecionada, int mesa, int qtde);
     
     //Para Pizzas
-    public void adicionaPedido(int linhaSelecionda, int mesa, int tamPizza, int qtde);
+    public void adicionaPedidoPizza(int linhaSelecionda, int mesa, int tamPizza, int qtde);
     
     
 }

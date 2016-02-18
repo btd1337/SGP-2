@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.BaseDados;
+import model.PizzasEnum;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -244,6 +245,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
 
         try{
+            tabelaPedidosMesa.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
             tabelaPedidosMesa.setModel(new ResultSetTableModel("SELECT Nome,Descricao,Qtde,Valor FROM Pedidos WHERE Mesa = '" + getMesaSelecionda() + "'"));
         }
         catch(SQLException ex){
@@ -578,8 +580,32 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }
     
+    public void atualizaTabelaPedidos(int mesaSelecionada) {
+         BaseDados base = DBController.getBaseDados();
+       switch(base){
+            case Arquivo: break;
+
+            case Serial: break;
+
+            case JDBC: 
+            {
+                try {
+                    tabelaPedidosMesa.setModel(
+                            new ResultSetTableModel(
+                                    "SELECT Nome, Descricao,Qtde, Valor FROM Pedidos "
+                                            + "WHERE MESA='" + mesaSelecionada + "'"));
+                    
+                   
+                    break;
+                } catch (SQLException ex) {
+                        ex.printStackTrace();
+                }
+            }
+        }   
+    }
+    
     public void atualizaTabelaExtras(){
-        BaseDados base = DBController.getBaseDados();
+       BaseDados base = DBController.getBaseDados();
        switch(base){
             case Arquivo: break;
 
@@ -625,7 +651,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         else if(qtde <=0 ){
             JOptionPane.showMessageDialog(
-                    null, "Quantidade de itens deve ser maior que 0!","Atenção",
+                    null, "A quantidade de itens deve ser maior que 0!","Atenção",
                     JOptionPane.INFORMATION_MESSAGE);
         }
         //caso tenha uma linha da tabela de pizzas selecionada
@@ -648,14 +674,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         //caso tenha uma linha da tabela de extras selecionada
         else if(tabelaExtrasLinhaSelecionada>0){
+            
             PedidoController pedido = new PedidoController();
             
             pedido.adicionaPedido(
-                    tabelaPizzasLinhaSelecionada,mesaSelecionada,qtde);
+                    tabelaExtrasLinhaSelecionada,mesaSelecionada,qtde);
             
             JOptionPane.showMessageDialog(
                     null, "Produto Adicionado!", "Novo Produto",
                     JOptionPane.INFORMATION_MESSAGE);
+            
+            atualizaTabelaPedidos(mesaSelecionada);
         }
         else{
             JOptionPane.showMessageDialog(
@@ -694,9 +723,30 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtHorarioEntradaActionPerformed
 
     private void HandlerBtnCancelaPedido(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HandlerBtnCancelaPedido
-        MesaController m = new MesaController();
         
-        m.cancelaPedido();
+        int mesa = 1;
+        int pedido;
+        int qtde = 0;
+        
+        
+        //verificar a quantidade
+        
+        Integer.parseInt(JOptionPane.showInputDialog("Informe a quantidade a ser cancelada: "));
+        
+        
+        if(tabelaMesas.getSelectedRow()>=0 && tabelaPedidosMesa.getSelectedRow()>=0){
+            
+            pedido = tabelaPedidosMesa.getSelectedRow();
+            MesaController m = new MesaController();        
+            m.cancelaPedido(mesa,pedido,qtde);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,
+                    "A mesa e o pedido devem estar selecionados!",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+       
         
     }//GEN-LAST:event_HandlerBtnCancelaPedido
 
@@ -867,6 +917,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MesaController mesa = new MesaController();
         entrada = mesa.getHorarioEntrada(tabelaMesas.getSelectedRow() + 1);
         txtHorarioEntrada.setText(entrada);
+        
+        atualizaTabelaPedidos(tabelaMesas.getSelectedRow() + 1);
     }//GEN-LAST:event_tabelaMesasMouseClicked
 
     
@@ -1240,6 +1292,197 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // End of variables declaration                   
 
 }
+    
+    public class TelaTamanhoPizza extends javax.swing.JFrame {
+
+    /**
+     * Creates new form TelaTamanhoPizza
+     */
+    private int linhaSelecionada;
+    private int mesaSelecionada;
+    private int qtde;
+
+    
+    
+    public TelaTamanhoPizza() {
+        initComponents();
+    }
+    
+    public void setLinhaSelecionada(int linhaSelecionada) {
+        this.linhaSelecionada = linhaSelecionada;
+    }
+
+    public void setMesaSelecionada(int mesaSelecionada) {
+        this.mesaSelecionada = mesaSelecionada;
+    }
+
+    public void setQtde(int qtde) {
+        this.qtde = qtde;
+    }
+    
+    
+    
+    
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        radGroupTamanhoPizza = new javax.swing.ButtonGroup();
+        jLabel1 = new javax.swing.JLabel();
+        lblTamanhoPizza = new javax.swing.JLabel();
+        radPequena = new javax.swing.JRadioButton();
+        radMedia = new javax.swing.JRadioButton();
+        radGrande = new javax.swing.JRadioButton();
+        btnCancelar = new javax.swing.JButton();
+        btnConfirmar = new javax.swing.JButton();
+
+        //adiciona os 3 botões ao grupo
+        radGroupTamanhoPizza.add(radPequena);
+        radGroupTamanhoPizza.add(radMedia);
+        radGroupTamanhoPizza.add(radGrande);
+
+        jLabel1.setText("jLabel1");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setForeground(new java.awt.Color(255, 51, 51));
+        setPreferredSize(new java.awt.Dimension(300, 200));
+
+        lblTamanhoPizza.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        lblTamanhoPizza.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTamanhoPizza.setText("Qual o Tamanho da Pizza?");
+
+        radGroupTamanhoPizza.add(radPequena);
+        radPequena.setSelected(true);
+        radPequena.setText("Pequena");
+        radPequena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPequenaActionPerformed(evt);
+            }
+        });
+
+        radGroupTamanhoPizza.add(radMedia);
+        radMedia.setText("Media");
+        radMedia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radMediaActionPerformed(evt);
+            }
+        });
+
+        radGroupTamanhoPizza.add(radGrande);
+        radGrande.setText("Grande");
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblTamanhoPizza, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(radPequena)
+                                .addGap(18, 18, 18)
+                                .addComponent(radMedia)
+                                .addGap(18, 18, 18)
+                                .addComponent(radGrande)))
+                        .addGap(0, 1, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnConfirmar)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTamanhoPizza)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radPequena)
+                    .addComponent(radMedia)
+                    .addComponent(radGrande))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnConfirmar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void radPequenaActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void radMediaActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+    }                                        
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        int tamPizza = 1;
+        //verifica qual botão está selecionado
+        if(radPequena.isSelected()){
+            tamPizza = PizzasEnum.P.getValor;
+        }
+        else if(radMedia.isSelected()){
+            tamPizza = PizzasEnum.M.getValor;
+        }
+        else{
+            tamPizza = PizzasEnum.G.getValor;
+        }
+        
+        PedidoController pedido = new PedidoController();          
+        //chama o controlador pra fazer o pedido    
+        pedido.adicionaPedido(
+                linhaSelecionada,mesaSelecionada, tamPizza, qtde);
+        
+        atualizaTabelaPedidos(mesaSelecionada);
+        dispose();
+        
+    }                                            
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        
+    }                                           
+
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnConfirmar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblTamanhoPizza;
+    private javax.swing.JRadioButton radGrande;
+    private javax.swing.ButtonGroup radGroupTamanhoPizza;
+    private javax.swing.JRadioButton radMedia;
+    private javax.swing.JRadioButton radPequena;
+    // End of variables declaration                   
+
+        
+    }
 
 
 }

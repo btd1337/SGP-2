@@ -201,45 +201,51 @@ public class MesaDAOJdbc implements MesaDAO {
         } 
         catch (SQLException ex) {
             conexao.imprimeErro("Erro ao acrescentar pedido.", ex.getMessage());
+            ex.printStackTrace();
         } finally{
             conexao.desconectar();
         }      
     }
         
-    public void cancelarPedido(Pedido p, int qtde, int mesa){
+    public void cancelarPedido(int mesa, int linhaPedido, int qtde){
         conexao.conectar();
+        int id;
         
         try{
-            resultado = comando.executeQuery("SELECT qtde, valor FROM PedidosMesa'" + 
-                    mesa + "' WHERE nome = '" + p.getProduto().getNome()
-                    + "', descricao = '" + p.getProduto().getDescricao() + "'");
+            comando = conexao.getComando();
+            
+            resultado = comando.executeQuery("SELECT id, Qtde, Valor FROM Pedidos "
+                    + "WHERE Mesa = '" + mesa + "'");
             
             //verifica se foi encontrado o pedido
             if(resultado.next()){
                 //captura os valores atuais
                 int qtdeAtual;
                 double valorAtual;
-                int linhaPedido;
-                linhaPedido = resultado.getRow();
-                qtdeAtual = resultado.getInt("qtde");
-                valorAtual = resultado.getDouble("valor");
+                double valorIndividual;
+                resultado.absolute(linhaPedido);
+                
+                qtdeAtual = resultado.getInt("Qtde");
+                valorAtual = resultado.getDouble("Valor");
+                id = resultado.getInt("id");
+                valorIndividual = valorAtual/qtdeAtual;
                 
                 qtdeAtual -= qtde;
                 //verifica a quantidade restante após o cancelamento
                 if(qtdeAtual <= 0){ 
                     //remove pedido
                     comando.executeUpdate(
-                    "DELETE FROM PedidosMesa'" + mesa + "' WHERE id = '"
-                    + linhaPedido + "'");
+                    "DELETE FROM Pedidos WHERE id = '"
+                    + id + "'");
                 }
                 else{           
                     //atualiza quantidade
-                    valorAtual -= (p.getProduto().getValor1() * qtde);
+                    valorAtual = valorIndividual * qtdeAtual;
 
                     comando.executeUpdate(
-                            "UPDATE PedidosMesa'" + mesa + "' SET qtde = '"
-                            + qtde + "' ,valor = '" + valorAtual
-                            + "' WHERE id = '" + linhaPedido + "'" );
+                            "UPDATE Pedidos SET Qtde = '"
+                            + qtdeAtual + "' ,Valor = '" + valorAtual
+                            + "' WHERE id = '" + id + "'" );
                 }
             }
         }

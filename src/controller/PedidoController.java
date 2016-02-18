@@ -2,7 +2,6 @@ package controller;
 
 import dao.PedidoDAOJdbc;
 import model.BaseDados;
-import model.PizzariaEnum;
 
 /**
  *
@@ -22,7 +21,8 @@ public class PedidoController{
             case JDBC: 
             {
                 PedidoDAOJdbc pedido = new PedidoDAOJdbc();        
-                pedido.adicionaPedido(linhaSelecionada, mesa, qtde);
+                pedido.adicionaPedidoExtra(
+                        linhaSelecionada, mesa,qtde);
                 
                 break;
             }
@@ -47,7 +47,7 @@ public class PedidoController{
             case JDBC: 
             {
                 PedidoDAOJdbc pedido = new PedidoDAOJdbc();        
-                pedido.adicionaPedido(
+                pedido.adicionaPedidoPizza(
                         linhaSelecionada, mesaSelecionada,tamPizza,qtde);
                 
                 break;

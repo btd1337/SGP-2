@@ -82,7 +82,7 @@ public class MesaController{
         
     }
 
-    public void cancelaPedido() {
+    public void cancelaPedido(int mesa, int linhaPedido, int qtde) {
         BaseDados base = DBController.getBaseDados();
         
         switch(base){
@@ -92,7 +92,8 @@ public class MesaController{
             
             case JDBC: 
             {
-                
+                MesaDAOJdbc m = new MesaDAOJdbc();        
+                m.cancelarPedido(mesa,linhaPedido,qtde);
                 
                 break;
             }

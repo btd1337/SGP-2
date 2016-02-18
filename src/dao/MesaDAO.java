@@ -22,7 +22,7 @@ public interface MesaDAO {
     
     public void acrescentarPedido(Pedido p, int mesa);
 
-    public void cancelarPedido(Pedido produto, int qtde, int mesa);
+    public void cancelarPedido(int mesa, int linhaPedido, int qtde);
 
     public double getTotalPagar(int mesa);
 

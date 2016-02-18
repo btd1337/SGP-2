@@ -3,9 +3,6 @@ package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import model.Extras;
-import model.Pedido;
-import model.Pizza;
 
 
 /**
@@ -20,11 +17,12 @@ public class PedidoDAOJdbc implements PedidoDAO{
     private ResultSet resultado;        
     
     //Para Produtos Extras
-    public void adicionaPedido(int linhaSelecionada, int mesa, int qtde) {        
+    @Override
+    public void adicionaPedidoExtra(int linhaSelecionada, int mesa, int qtde) {        
         
-            String nome;
-            String descricao;
-            Double valor;          
+            String nome = "";
+            String descricao = "";
+            Double valor = 0.0;          
           
             
             conexao.conectar();
@@ -33,38 +31,36 @@ public class PedidoDAOJdbc implements PedidoDAO{
             
             comando = conexao.getComando();
             resultado = comando.executeQuery(
-                    " SELECT Produto, Descricao, Valor FROM Extras ");
+                    "SELECT Produto, Descricao, Valor FROM Extras");
             
             //Move o resultado para a linha do produto selecionado
             resultado.absolute(linhaSelecionada);
-            
+            System.out.println("Linha: " + linhaSelecionada);
             //Captura as informações para preencher o pedido
             nome = resultado.getString("Produto");
             descricao = resultado.getString("Descricao");
-            valor = resultado.getDouble("Valor");            
+            valor = resultado.getDouble("Valor") * qtde;            
             
-            //cria objetos para passar para o método da classe MesaDAO
-            Extras produto = new Extras(nome, valor);
-            produto.setDescricao(descricao);
-            
-            Pedido pedido = new Pedido(produto, qtde);
-            
-            MesaDAOJdbc mesaDAO = new MesaDAOJdbc();
-            mesaDAO.acrescentarPedido(pedido, mesa);
-            
+            comando.executeUpdate(
+                    "INSERT INTO Pedidos(Mesa,Nome,Descricao,Qtde,Valor) VALUES('"
+                    + mesa + "','" + nome + "','" + descricao + "','" + qtde + "','" +
+                    valor + "')");            
             
         } catch (SQLException ex) {
+            
             conexao.imprimeErro("Erro ao executar Query", ex.getMessage());
+            ex.printStackTrace();
         }
         
     }
     
     //Para Pizzas
-    public void adicionaPedido(int linhaSelecionada, int mesa, int tamPizza, int qtde){
-            String nome;
-            Double valor1;
-            Double valor2;          
-            Double valor3;
+    @Override
+    public void adicionaPedidoPizza(int linhaSelecionada, int mesa, int tamPizza, int qtde){
+            String nome="";
+            String descricao="";
+            Double valor = 0.0;
+            
             
             conexao.conectar();
             
@@ -79,23 +75,41 @@ public class PedidoDAOJdbc implements PedidoDAO{
             
             //Captura as informações para preencher o pedido
             nome = resultado.getString("Pizza");
-            valor1 = resultado.getDouble("P");
-            valor2 = resultado.getDouble("M");
-            valor3 = resultado.getDouble("G");
+            
+            switch(tamPizza){
+                case 1: 
+                {
+                    descricao = "P";
+                    valor = resultado.getDouble("P") * qtde;
+                    break;
+                } 
+                case 2:
+                {
+                    descricao = "M";
+                    valor = resultado.getDouble("M") * qtde;
+                    break;
+                } 
+                case 3:
+                {
+                    descricao = "G";
+                    valor = resultado.getDouble("G") * qtde;
+                    break;
+                } 
+            }
+            
             
             //cria objetos para passar para o método da classe MesaDAO
-            Pizza produto = new Pizza(nome, valor1);
-            produto.setValor2(valor2);
-            produto.setValor3(valor3);
             
-            Pedido pedido = new Pedido(produto, qtde);
+            comando.executeUpdate(
+                    "INSERT INTO Pedidos(Mesa,Nome,Descricao,Qtde, Valor) VALUES('"
+                    + mesa + "','" + nome + "','" + descricao + "','" + qtde + "','" +
+                    valor + "')");
             
-            MesaDAOJdbc mesaDAO = new MesaDAOJdbc();
-            mesaDAO.acrescentarPedido(pedido, mesa);
             
             
         } catch (SQLException ex) {
             conexao.imprimeErro("Erro ao executar Query", ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }

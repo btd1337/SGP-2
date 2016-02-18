@@ -35,7 +35,7 @@ CREATE TABLE Pizzas(
     P double NOT NULL,
     M double NOT NULL,
     G double NOT NULL,
-    Descricao varchar(150)
+    Descricao varchar(40)
 );
 
 INSERT INTO Pizzas(Pizza, P, M, G) VALUES ('Pizza Americana',15.90, 24.90, 27.90);
@@ -52,7 +52,7 @@ INSERT INTO Pizzas(Pizza, P, M, G) VALUES ('Pizza de Quatro Queijos', 14.90, 23.
 
 CREATE TABLE Extras(
     Produto varchar(25) NOT NULL,
-    Descricao  varchar(25) NOT NULL,
+    Descricao  varchar(40) NOT NULL,
     Valor double NOT NULL
 );
 
