@@ -161,38 +161,42 @@ public class MesaDAOJdbc implements MesaDAO {
             
             //Traz os pedidos semelhantes para a mesa informada
             if(p.getProduto() instanceof Extras){
-            resultado = comando.executeQuery(
+                resultado = comando.executeQuery(
                     "SELECT Qtde, Valor FROM Pedidos WHERE Mesa = '" + 
-                    mesa + "' Nome = '" + p.getProduto().getNome() +
-                    "', Descricao = '" + p.getProduto().getDescricao() + "'");
-        }
-            //caso o produto já tenha sido pedido
-            if(resultado.next()){
-                int qtde;       //qtde atual pedida
-                double valor;   //valor atual pedido
-                //Encontra a linha onde o produto já foi pedido
-                linhaPedido = resultado.getRow();
-                qtde = resultado.getInt("Qtde");
-                valor = resultado.getDouble("Valor");
-                
-                //atualiza valores
-                qtde += p.getQtdeDoProduto();
-                valor += p.getValorDoPedido();
-                
-                comando.executeUpdate(
-                        "UPDATE Pedidos SET Qtde = '"
-                        + qtde + "' ,Valor = '" + valor
-                        + "' WHERE id = '" + linhaPedido + "'" );
+                    mesa + "' AND Nome = '" + p.getProduto().getNome() +
+                    "'AND Descricao = '" + p.getProduto().getDescricao() + "'");
             }
-            //caso o produto ainda não tenha sido pedido
             else{
-                comando.executeUpdate(
-                        "INSERT INTO PedidosMesa(Mesa, Nome, Descricao, Qtde, Valor)"
-                        + " VALUES ('" + mesa + "','" +  
-                        p.getProduto().getNome() + "','" + 
-                        p.getProduto().getDescricao() + "','" + 
-                        p.getQtdeDoProduto() + "','" +                         
-                        p.getValorDoPedido() + "'");
+                
+            }
+            
+                //caso o produto já tenha sido pedido
+                if(resultado.next()){
+                    int qtde;       //qtde atual pedida
+                    double valor;   //valor atual pedido
+                    //Encontra a linha onde o produto já foi pedido
+                    linhaPedido = resultado.getRow();
+                    qtde = resultado.getInt("Qtde");
+                    valor = resultado.getDouble("Valor");
+
+                    //atualiza valores
+                    qtde += p.getQtdeDoProduto();
+                    valor += p.getValorDoPedido();
+
+                    comando.executeUpdate(
+                            "UPDATE Pedidos SET Qtde = '"
+                            + qtde + "' ,Valor = '" + valor
+                            + "' WHERE id = '" + linhaPedido + "'" );
+                }
+                //caso o produto ainda não tenha sido pedido
+                else{
+                    comando.executeUpdate(
+                            "INSERT INTO PedidosMesa(Mesa, Nome, Descricao, Qtde, Valor)"
+                            + " VALUES ('" + mesa + "','" +  
+                            p.getProduto().getNome() + "','" + 
+                            p.getProduto().getDescricao() + "','" + 
+                            p.getQtdeDoProduto() + "','" +                         
+                            p.getValorDoPedido() + "'");
             }
         } 
         catch (SQLException ex) {
@@ -276,10 +280,6 @@ public class MesaDAOJdbc implements MesaDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public String getHorarioEntrada(int mesa) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String getHorarioSaida(int mesa) {
@@ -289,6 +289,29 @@ public class MesaDAOJdbc implements MesaDAO {
     @Override
     public ArrayList<Pedido> getPedidos(int mesa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getHorarioEntrada(int mesaSelecionada) {
+        String entrada = "";
+        conexao.conectar();
+        comando = conexao.getComando();
+        try {
+            //insere nova mesa
+            resultado =  comando.executeQuery("SELECT Mesa,Entrada FROM Mesas");       
+            
+            resultado.absolute(mesaSelecionada);
+            
+            entrada = resultado.getString("Entrada");
+                    
+            
+        } catch (SQLException ex) {
+            conexao.imprimeErro("Erro ao obter horário de entrada!", ex.getMessage());
+            
+        } finally {            
+            conexao.desconectar();
+            return entrada;
+        }
     }
 }
     

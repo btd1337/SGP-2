@@ -118,5 +118,25 @@ public class MesaController{
         }
     }
 
+    public String getHorarioEntrada(int mesaSelecionada) {
+        String entrada = "";
+        BaseDados base = DBController.getBaseDados();
+        
+        switch(base){
+            case Arquivo: break;
+            
+            case Serial: break;
+            
+            case JDBC: 
+            {
+                MesaDAOJdbc mesa = new MesaDAOJdbc();        
+                entrada = mesa.getHorarioEntrada(mesaSelecionada);
+                
+                break;
+            }
+        }
+        return entrada;
+    }
+
     
 }

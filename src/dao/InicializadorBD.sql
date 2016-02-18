@@ -8,8 +8,8 @@ CREATE TABLE Mesas(
     Mesa int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Nome varchar(4),
     Total double,
-    Entrada date,
-    Saida date,
+    Entrada timestamp DEFAULT NULL,
+    Saida timestamp,
     Ocupado boolean NOT NULL
 );
 

@@ -128,6 +128,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         tabelaMesas.setRowHeight(20);
+        tabelaMesas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMesasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelaMesas);
         //tabelaMesas = new javax.swing.JTable();
 
@@ -322,12 +327,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         tabelaExtras.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 tabelaExtrasAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         tabelaExtras.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -639,6 +644,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             tela.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             
             
+            
         }
         //caso tenha uma linha da tabela de extras selecionada
         else if(tabelaExtrasLinhaSelecionada>0){
@@ -854,6 +860,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     "Erro ao alternar base de dados", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_radJDBCActionPerformed
+
+    private void tabelaMesasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMesasMouseClicked
+        String entrada = "";
+        //atualiza mesa de pedidos
+        MesaController mesa = new MesaController();
+        entrada = mesa.getHorarioEntrada(tabelaMesas.getSelectedRow() + 1);
+        txtHorarioEntrada.setText(entrada);
+    }//GEN-LAST:event_tabelaMesasMouseClicked
 
     
     

@@ -4,11 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/helder/Repositórios/SGP-2/src/view/TelaPrincipal.java</file>
-            <file>file:/home/helder/Repositórios/SGP-2/src/controller/PedidoController.java</file>
-            <file>file:/home/helder/Repositórios/SGP-2/src/dao/PedidoJdbcDAO.java</file>
-            <file>file:/home/helder/Repositórios/SGP-2/src/dao/MesaJdbcDAO.java</file>
+            <file>file:/home/helder/Repositórios/SGP-2/src/view/TelaSobre.java</file>
             <file>file:/home/helder/Repositórios/SGP-2/src/dao/InicializadorBD.sql</file>
-            <file>file:/home/helder/Repositórios/SGP-2/src/controller/MesaController.java</file>
         </group>
     </open-files>
 </project-private>

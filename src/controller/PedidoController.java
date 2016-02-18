@@ -46,7 +46,9 @@ public class PedidoController{
             
             case JDBC: 
             {
-                
+                PedidoDAOJdbc pedido = new PedidoDAOJdbc();        
+                pedido.adicionaPedido(
+                        linhaSelecionada, mesaSelecionada,tamPizza,qtde);
                 
                 break;
             }
