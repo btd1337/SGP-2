@@ -328,18 +328,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         catch(SQLException ex){
             ex.printStackTrace();
         }
-        tabelaExtras.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                tabelaExtrasAncestorAdded(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        tabelaExtras.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent event) {
-                tabelaPizzas.getSelectionModel().clearSelection();
+        tabelaExtras.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaExtrasMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tabelaExtras);
@@ -352,6 +343,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         catch(SQLException ex){
             ex.printStackTrace();
         }
+        tabelaPizzas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaPizzasMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tabelaPizzas);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -681,7 +677,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     tabelaExtrasLinhaSelecionada,mesaSelecionada,qtde);
             
             JOptionPane.showMessageDialog(
-                    null, "Produto Adicionado!", "Novo Produto",
+                    null, "Pedido Adicionado!", "Novo Pedido",
                     JOptionPane.INFORMATION_MESSAGE);
             
             atualizaTabelaPedidos(mesaSelecionada);
@@ -836,10 +832,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         mesaSelecionada  = tabelaMesas.getSelectedRow() +1;
         
         if(mesaSelecionada>0){
+            String entrada = "";
             MesaController m = new MesaController();         
             m.abreMesa(mesaSelecionada);
-            
+            //Atualiza label horário de entrada
+            entrada = m.getHorarioEntrada(tabelaMesas.getSelectedRow() + 1);
             atualizaTabelaMesas();
+            txtHorarioEntrada.setText(entrada);  
         }
         else{
             //caso nenhuma mesa esteja selecionada
@@ -868,10 +867,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 "Função em Implementação!","Instruções",
                 JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_HandlerMItemInstrucoes
-
-    private void tabelaExtrasAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tabelaExtrasAncestorAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabelaExtrasAncestorAdded
 
     private void mItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemSairActionPerformed
         //Encerra a aplicação
@@ -920,6 +915,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         
         atualizaTabelaPedidos(tabelaMesas.getSelectedRow() + 1);
     }//GEN-LAST:event_tabelaMesasMouseClicked
+
+    private void tabelaPizzasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPizzasMouseClicked
+        tabelaExtras.clearSelection();
+    }//GEN-LAST:event_tabelaPizzasMouseClicked
+
+    private void tabelaExtrasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaExtrasMouseClicked
+        tabelaPizzas.clearSelection();
+    }//GEN-LAST:event_tabelaExtrasMouseClicked
 
     
     
@@ -1460,13 +1463,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pedido.adicionaPedido(
                 linhaSelecionada,mesaSelecionada, tamPizza, qtde);
         
+        JOptionPane.showMessageDialog(
+                    null, "Pedido Adicionado!", "Novo Pedido",
+                    JOptionPane.INFORMATION_MESSAGE);
+        
         atualizaTabelaPedidos(mesaSelecionada);
         dispose();
         
     }                                            
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        
+        dispose();
     }                                           
 
 

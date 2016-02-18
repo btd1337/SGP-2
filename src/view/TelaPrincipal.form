@@ -735,12 +735,11 @@
                     <Property name="rowHeight" type="int" value="20"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="tabelaExtrasAncestorAdded"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelaExtrasMouseClicked"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="}&#xa;catch(SQLException ex){&#xa;    ex.printStackTrace();&#xa;}"/>
                     <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="try{"/>
-                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="tabelaExtras.getSelectionModel().addListSelectionListener(new ListSelectionListener(){&#xa;        public void valueChanged(ListSelectionEvent event) {&#xa;            tabelaPizzas.getSelectionModel().clearSelection(); &#xa;        }&#xa;    });"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -762,6 +761,9 @@
                     </Property>
                     <Property name="rowHeight" type="int" value="20"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelaPizzasMouseClicked"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(new ResultSetTableModel(&quot;SELECT Pizza, P, M, G FROM Pizzas&quot;))"/>
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="}&#xa;catch(SQLException ex){&#xa;    ex.printStackTrace();&#xa;}"/>

@@ -145,67 +145,6 @@ public class MesaDAOJdbc implements MesaDAO {
     }
     
     
-    public void acrescentarPedido(Pedido p, int mesa) {
-        
-        
-        //Verificar se elemento já foi pedido
-        int linhaPedido;
-        conexao.conectar();
-        
-        try{
-            //seleciona a coluna qtde e valor do medido da mesa desejada
-            //caso o pedido seja igual
-            comando = conexao.getComando();
-            
-            
-            
-            //Traz os pedidos semelhantes para a mesa informada
-            if(p.getProduto() instanceof Extras){
-                resultado = comando.executeQuery(
-                    "SELECT Qtde, Valor FROM Pedidos WHERE Mesa = '" + 
-                    mesa + "' AND Nome = '" + p.getProduto().getNome() +
-                    "'AND Descricao = '" + p.getProduto().getDescricao() + "'");
-            }
-            else{
-                
-            }
-            
-                //caso o produto já tenha sido pedido
-                if(resultado.next()){
-                    int qtde;       //qtde atual pedida
-                    double valor;   //valor atual pedido
-                    //Encontra a linha onde o produto já foi pedido
-                    linhaPedido = resultado.getRow();
-                    qtde = resultado.getInt("Qtde");
-                    valor = resultado.getDouble("Valor");
-
-                    //atualiza valores
-                    qtde += p.getQtdeDoProduto();
-                    valor += p.getValorDoPedido();
-
-                    comando.executeUpdate(
-                            "UPDATE Pedidos SET Qtde = '"
-                            + qtde + "' ,Valor = '" + valor
-                            + "' WHERE id = '" + linhaPedido + "'" );
-                }
-                //caso o produto ainda não tenha sido pedido
-                else{
-                    comando.executeUpdate(
-                            "INSERT INTO PedidosMesa(Mesa, Nome, Descricao, Qtde, Valor)"
-                            + " VALUES ('" + mesa + "','" +  
-                            p.getProduto().getNome() + "','" + 
-                            p.getProduto().getDescricao() + "','" + 
-                            p.getQtdeDoProduto() + "','" +                         
-                            p.getValorDoPedido() + "'");
-            }
-        } 
-        catch (SQLException ex) {
-            conexao.imprimeErro("Erro ao acrescentar pedido.", ex.getMessage());
-            ex.printStackTrace();
-        } finally{
-            conexao.desconectar();
-        }      
-    }
         
     public void cancelarPedido(int mesa, int linhaPedido, int qtde){
         conexao.conectar();

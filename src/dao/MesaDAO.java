@@ -19,8 +19,6 @@ public interface MesaDAO {
     public boolean isOcupacaoMesa(int mesa);
 
     public void setOcupacaoMesa(boolean ocupacaoMesa, int mesa);  
-    
-    public void acrescentarPedido(Pedido p, int mesa);
 
     public void cancelarPedido(int mesa, int linhaPedido, int qtde);
 
